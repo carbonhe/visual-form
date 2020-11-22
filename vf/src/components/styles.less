@@ -1,0 +1,110 @@
+//region workspace.component.ts
+.main-layout {
+  height: 100%;
+  display: flex;
+}
+
+.panel {
+  box-sizing: border-box;
+  height: 100%;
+  padding: 5px;
+}
+
+.component-panel {
+  width: 20%;
+  border-right: #f6f5f6 solid thin;
+  .panel();
+}
+
+.layout-panel {
+  width: 60%;
+  border-right: #f6f5f6 solid thin;
+
+  .panel();
+}
+
+.property-panel {
+  width: 20%;
+  .panel();
+}
+
+//endregion
+
+//region component-indicator.component.ts
+.indicator {
+  background-color: #f5f7fa;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2px;
+  cursor: pointer;
+}
+
+//endregion
+
+//region layout-panel.component.ts
+.layout-container {
+  background-color: rgb(246, 245, 246);
+  height: 100%;
+  width: 100%;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  display: flex;
+}
+
+.layout-container > .indicator-wrapper.sortable-ghost {
+  .sortable-item();
+  width: 100% !important;
+  border: 2px solid #409eff;
+
+}
+
+.sortable-item {
+  position: relative;
+  height: 70px;
+  text-align: center;
+  box-sizing: border-box;
+  margin-bottom: 5px;
+  border: 1px dashed #bbb;
+  transition: width ease-in-out 0.3s;
+}
+
+.sortable-item-selected {
+  border: 2px solid #409eff;
+}
+
+.sortable-ghost {
+  opacity: 0.2;
+}
+
+.svg-icon {
+  height: 24px;
+  width: 24px;
+  background: rgb(64, 158, 255);
+}
+
+.handle {
+  .svg-icon();
+  position: absolute;
+  cursor: pointer;
+}
+
+.delete {
+  .svg-icon();
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  cursor: pointer;
+}
+
+
+//endregion
+
+//region Description
+.property-container {
+  padding-top: 20px;
+  padding-right: 20px;
+}
+
+//endregion
