@@ -8,7 +8,7 @@
     "build:vf": "ng build vf --prod",
     "build:vf-antd": "ng build vf-antd --prod",
     "build:lib": "yarn run build:vf && yarn run build:vf-antd",
-    "test": "ng test",
+    "test": "ng test vf",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "dev:ssr": "ng run visual-form-app:serve-ssr",
@@ -18,8 +18,6 @@
   },
   "private": true,
   "dependencies": {
-    "visual-form": "link:./dist/visual-form",
-    "visual-form-antd": "link:./dist/visual-form-antd",
     "@angular/animations": "~10.0.6",
     "@angular/cdk": "^10.2.7",
     "@angular/common": "~10.0.6",

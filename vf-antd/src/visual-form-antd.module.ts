@@ -1,21 +1,23 @@
-import { NgModule } from '@angular/core';
-import { COMMON_PROPERTY_COMPONENT, COMPONENT_PROVIDERS, FORM_RENDER_COMPONENT, VisualFormModule } from 'visual-form';
-import { InputComponent, InputComponentProvider } from './component-providers/input-component-provider';
-import { CommonPropertyComponent } from './component-providers/common-property.component';
+import { NgModule, Type } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FormRenderComponent } from './component-providers/form-render.component';
 import { CommonModule } from '@angular/common';
 import { PortalModule } from '@angular/cdk/portal';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { VfWorkspaceModule } from 'visual-form';
+import { PluginService } from 'visual-form/workspace/plugable/plugin.service';
+import { VfIndicator, VfPanel, VfPlatform } from 'visual-form/workspace/plugable/plugable';
+import { InputComponent } from './contorls/input.component';
+import { FormControlTemplate } from 'visual-form/renderer/types';
+import { indicators } from './indicators';
 
 @NgModule({
-  declarations: [CommonPropertyComponent, FormRenderComponent, InputComponent],
-  exports: [VisualFormModule],
+  declarations: [InputComponent],
+  exports: [VfWorkspaceModule],
   imports: [
-    VisualFormModule,
+    VfWorkspaceModule,
     NzInputModule,
     NzSwitchModule,
     NzFormModule,
@@ -24,22 +26,34 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     PortalModule,
     ReactiveFormsModule,
     NzToolTipModule,
-    NzFormModule,
-  ],
-  providers: [
-    {
-      provide: FORM_RENDER_COMPONENT,
-      useValue: FormRenderComponent,
-    },
-    {
-      provide: COMMON_PROPERTY_COMPONENT,
-      useValue: CommonPropertyComponent,
-    },
-    {
-      provide: COMPONENT_PROVIDERS,
-      useClass: InputComponentProvider,
-      multi: true,
-    },
-  ],
+    NzFormModule
+  ]
 })
-export class VisualFormAntdModule {}
+export class VisualFormAntdModule {
+
+  constructor(pluginService: PluginService) {
+    pluginService.usePlatform(this.platform);
+  }
+
+  get platform(): VfPlatform {
+
+    const panels: VfPanel<any>[] = [
+      {
+        id: 'identifier',
+        order: 0,
+        panelType: InputComponent,
+        apply(indicatorId: string): boolean {
+          return true;
+        }
+      }
+    ];
+    const controlMap = new Map<VfIndicator, Type<FormControlTemplate>>([
+      [indicators.input, InputComponent]
+    ]);
+    return {
+      id: 'antd',
+      panels,
+      controlMap
+    };
+  }
+}

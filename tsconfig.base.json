@@ -12,8 +12,22 @@
     "target": "es2015",
     "module": "es2020",
     "lib": [
-      "es2018",
+      "ESNext",
       "dom"
-    ]
+    ],
+    "paths": {
+      "visual-form": [
+        "vf"
+      ],
+      "visual-form/*": [
+        "vf/*"
+      ],
+      "visual-form-antd": [
+        "vf-antd"
+      ],
+      "visual-form-antd/*": [
+        "vf-antd/*"
+      ]
+    }
   }
 }

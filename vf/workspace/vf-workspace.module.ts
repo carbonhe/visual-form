@@ -4,11 +4,11 @@ import { WorkspaceComponent } from './components/workspace.component';
 import { ComponentPanelComponent } from './components/component-panel.component';
 import { LayoutPanelComponent } from './components/layout-panel.component';
 import { PropertyPanelComponent } from './components/property-panel.component';
-import { ComponentIndicatorComponent } from './components/component-indicator.component';
+import { IndicatorComponent } from './components/indicator.component';
 
 import { SortablejsModule } from 'ngx-sortablejs';
 import { PortalModule } from '@angular/cdk/portal';
-import { RenderComponent } from './components/render.component';
+import { InternalRenderComponent, RenderComponent } from './components/render.component';
 
 @NgModule({
   declarations: [
@@ -17,9 +17,11 @@ import { RenderComponent } from './components/render.component';
     ComponentPanelComponent,
     LayoutPanelComponent,
     PropertyPanelComponent,
-    ComponentIndicatorComponent,
+    IndicatorComponent,
+    InternalRenderComponent
   ],
   exports: [WorkspaceComponent],
-  imports: [CommonModule, SortablejsModule, PortalModule],
+  imports: [CommonModule, SortablejsModule, PortalModule]
 })
-export class VisualFormModule {}
+export class VfWorkspaceModule {
+}

@@ -10,8 +10,7 @@
     "ngx-sortablejs": "^10.0.0",
     "sortablejs": "^1.12.0",
     "ng-zorro-antd": "^10.1.0",
-    "tslib": "^2.0.0",
-    "visual-form": "link:../dist/visual-form"
+    "tslib": "^2.0.0"
   },
   "main": "./src/index.ts"
 }

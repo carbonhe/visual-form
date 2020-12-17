@@ -1,0 +1,14 @@
+<form nz-form>
+  <nz-row>
+    <nz-col [nzSpan]='control.span' *ngFor='let control of controls'>
+      <nz-form-item>
+        <nz-form-label [nzTooltipTitle]='control.description' [nzFor]='control.id'>{{ control.title }}</nz-form-label>
+        <nz-form-control>
+          <ng-template [cdkPortalOutlet]='resolveComponentPortal(control.componentId)'
+                       (attached)='attached($event)'></ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+  </nz-row>
+</form>
+
