@@ -1,14 +1,14 @@
 import { Directive, Input, OnInit, ViewContainerRef } from '@angular/core';
-import { VfRenderService } from './vf-render.service';
 import { VfFormGroup } from './types';
+import { VfRenderer } from './vf-renderer';
 
 @Directive({
   selector: '[vf]',
 })
-export class VfRenderDirective implements OnInit {
+export class VfRendererDirective implements OnInit {
   @Input() vf: VfFormGroup;
 
-  constructor(private viewContainer: ViewContainerRef, private renderer: VfRenderService) {}
+  constructor(private viewContainer: ViewContainerRef, private renderer: VfRenderer) {}
 
   ngOnInit(): void {
     this.viewContainer.clear();

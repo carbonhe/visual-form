@@ -1,6 +1,6 @@
 import { Injectable, ViewContainerRef, ViewRef } from '@angular/core';
 import { PluginService } from '../plugable/plugin.service';
-import { VfRenderService } from '../../renderer/vf-render.service';
+import { VfRenderer } from '../../renderer/vf-renderer.service';
 import { VfFormGroup } from '../../renderer/types';
 
 @Injectable({ providedIn: 'root' })
@@ -9,8 +9,7 @@ export class PropertyPanelService {
 
   public panelContainer: ViewContainerRef;
 
-  constructor(private pluginService: PluginService, private renderer: VfRenderService) {
-  }
+  constructor(private pluginService: PluginService, private renderer: VfRenderer) {}
 
   changePanel(props: any) {
     let view = this.panelMapping.get(props.id);
@@ -19,13 +18,12 @@ export class PropertyPanelService {
         this.panelContainer.detach(i);
       }
       view.reattach();
-
     } else {
       const panels = this.pluginService.getPanels(props.indicatorId);
 
       const controls = {};
 
-      panels.forEach(e => controls[e.id] = '');
+      panels.forEach(e => (controls[e.id] = ''));
 
       const propertyGroup = new VfFormGroup(controls);
 
@@ -36,10 +34,8 @@ export class PropertyPanelService {
   }
 
   clear(indicatorId: string) {
-
     const view = this.panelMapping.get(indicatorId);
     view.destroy();
     this.panelMapping.delete(indicatorId);
   }
-
 }

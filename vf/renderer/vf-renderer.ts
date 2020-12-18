@@ -2,12 +2,9 @@ import { ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef } 
 import { VfFormControl, VfFormGroup } from './types';
 import { AbstractControl } from '@angular/forms';
 
-
 @Injectable({ providedIn: 'root' })
-export class VfRenderService {
-
-  constructor(private componentResolver: ComponentFactoryResolver) {
-  }
+export class VfRenderer {
+  constructor(private componentResolver: ComponentFactoryResolver) {}
 
   render(viewContainer: ViewContainerRef, control: AbstractControl): ComponentRef<any> {
     this.check(control);
@@ -17,7 +14,6 @@ export class VfRenderService {
       componentRef.instance.control = control;
       return componentRef;
     } else if (control instanceof VfFormGroup) {
-
       const controls = control.controls;
       const children: ComponentRef<unknown>[] = [];
 
@@ -26,7 +22,9 @@ export class VfRenderService {
           children.push(this.render(viewContainer, controls[controlName] as VfFormControl | VfFormGroup));
         }
       }
-      const componentRef = viewContainer.createComponent(this.componentResolver.resolveComponentFactory(control.component), null, null, [children.map(e => e.location.nativeElement)]);
+      const componentRef = viewContainer.createComponent(this.componentResolver.resolveComponentFactory(control.component), null, null, [
+        children.map(e => e.location.nativeElement),
+      ]);
       componentRef.instance.group = control;
       return componentRef;
     }
