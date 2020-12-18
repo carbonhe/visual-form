@@ -33,10 +33,15 @@ export class VfRenderer {
   private check(control: AbstractControl) {
     if (control instanceof VfFormControl || control instanceof VfFormGroup) {
       if (!control.component) {
-        throw new Error(`component must be associated!`);
+        throw new Error(RenderErrors.MISSING_COMPONENT);
       }
     } else {
-      throw new Error('parameter `control` must be an instance of VfFormControl or VfFormGroup!');
+      throw new Error(RenderErrors.TYPE_MISMATCH);
     }
   }
 }
+
+export const RenderErrors = {
+  MISSING_COMPONENT: 'Component must be associated!',
+  TYPE_MISMATCH: 'parameter `control` must be an instance of VfFormControl or VfFormGroup!',
+};

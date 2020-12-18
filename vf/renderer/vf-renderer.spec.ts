@@ -3,8 +3,10 @@ import { FormControlTemplate, FormGroupTemplate, VfFormControl, VfFormGroup } fr
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { VfRendererModule } from './vf-renderer.module';
 import { By } from '@angular/platform-browser';
+import { RenderErrors } from './vf-renderer';
+import { FormControl } from '@angular/forms';
 
-describe('vf-render', () => {
+describe('vf-renderer', () => {
   let fixture: ComponentFixture<TestVfRenderComponent>;
 
   let component: TestVfRenderComponent;
@@ -15,6 +17,28 @@ describe('vf-render', () => {
     });
     fixture = TestBed.createComponent(TestVfRenderComponent);
     component = fixture.componentInstance;
+  });
+
+  describe('should throw error', () => {
+    it('when group not an instance of VfFormGroup', () => {
+      component.group = {} as any;
+      expect(() => fixture.detectChanges()).toThrowError(RenderErrors.TYPE_MISMATCH);
+    });
+
+    it('when control not an instance of VfFormControl', () => {
+      component.group = new VfFormGroup(TestDivGroupComponent, { t: new FormControl() });
+      expect(() => fixture.detectChanges()).toThrowError(RenderErrors.TYPE_MISMATCH);
+    });
+
+    it('when group not associate component', () => {
+      component.group = new VfFormGroup(null, { t: new VfFormControl(TestInputControlComponent) });
+      expect(() => fixture.detectChanges()).toThrowError(RenderErrors.MISSING_COMPONENT);
+    });
+
+    it('when control not associate component', () => {
+      component.group = new VfFormGroup(TestDivGroupComponent, { t: new VfFormControl(null) });
+      expect(() => fixture.detectChanges()).toThrowError(RenderErrors.MISSING_COMPONENT);
+    });
   });
 
   describe('should render', () => {

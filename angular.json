@@ -183,7 +183,7 @@
     "vf": {
       "projectType": "library",
       "root": "",
-      "sourceRoot": "vf/src",
+      "sourceRoot": "vf",
       "prefix": "vf",
       "architect": {
         "build": {
