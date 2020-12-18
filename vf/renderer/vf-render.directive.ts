@@ -3,18 +3,15 @@ import { VfRenderService } from './vf-render.service';
 import { VfFormGroup } from './types';
 
 @Directive({
-  selector: '[vfRender]'
+  selector: '[vf]',
 })
 export class VfRenderDirective implements OnInit {
-  @Input() vfRender: VfFormGroup;
+  @Input() vf: VfFormGroup;
 
-  constructor(private viewContainer: ViewContainerRef,
-              private renderer: VfRenderService) {
-  }
+  constructor(private viewContainer: ViewContainerRef, private renderer: VfRenderService) {}
 
   ngOnInit(): void {
     this.viewContainer.clear();
-    this.renderer.render(this.viewContainer, this.vfRender);
+    this.renderer.render(this.viewContainer, this.vf);
   }
-
 }

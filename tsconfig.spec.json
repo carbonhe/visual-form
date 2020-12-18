@@ -13,6 +13,8 @@
   ],
   "include": [
     "src/**/*.spec.ts",
+    "vf/**/*.spec.ts",
+    "vf-antd/**/*.spec.ts",
     "src/**/*.d.ts"
   ]
 }

@@ -11,59 +11,58 @@ describe('vf-render', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [VfRendererModule],
-      declarations: [TestVfRenderComponent, TestInputControlComponent, TestDivGroupComponent]
+      declarations: [TestVfRenderComponent, TestInputControlComponent, TestDivGroupComponent],
     });
     fixture = TestBed.createComponent(TestVfRenderComponent);
     component = fixture.componentInstance;
   });
 
-  it('should render single control with single group', () => {
-    const control = new VfFormControl(TestInputControlComponent);
-    component.group = new VfFormGroup(TestDivGroupComponent, { test: control });
-    fixture.detectChanges();
-    expect(fixture.debugElement.queryAll(By.css('.group-div')).length).toBe(1);
-    expect(fixture.debugElement.queryAll(By.css('.control-input')).length).toBe(1);
-    expect(fixture.debugElement.queryAll(By.css('.group-div .control-input')).length).toBe(1);
-  });
+  describe('should render', () => {
+    it('single control with single group', () => {
+      const control = new VfFormControl(TestInputControlComponent);
+      component.group = new VfFormGroup(TestDivGroupComponent, { test: control });
+      fixture.detectChanges();
+      expect(fixture.debugElement.queryAll(By.css('.group-div')).length).toBe(1);
+      expect(fixture.debugElement.queryAll(By.css('.control-input')).length).toBe(1);
+      expect(fixture.debugElement.queryAll(By.css('.group-div .control-input')).length).toBe(1);
+    });
 
-  it('should render multi controls with single group', () => {
-    const control1 = new VfFormControl(TestInputControlComponent);
-    const control2 = new VfFormControl(TestInputControlComponent);
-    component.group = new VfFormGroup(TestDivGroupComponent, { test1: control1, test2: control2 });
-    fixture.detectChanges();
-    expect(fixture.debugElement.queryAll(By.css('.group-div')).length).toBe(1);
-    expect(fixture.debugElement.queryAll(By.css('.control-input')).length).toBe(2);
-    expect(fixture.debugElement.queryAll(By.css('.group-div .control-input')).length).toBe(2);
-  });
+    it('multi controls with single group', () => {
+      const control1 = new VfFormControl(TestInputControlComponent);
+      const control2 = new VfFormControl(TestInputControlComponent);
+      component.group = new VfFormGroup(TestDivGroupComponent, { test1: control1, test2: control2 });
+      fixture.detectChanges();
+      expect(fixture.debugElement.queryAll(By.css('.group-div')).length).toBe(1);
+      expect(fixture.debugElement.queryAll(By.css('.control-input')).length).toBe(2);
+      expect(fixture.debugElement.queryAll(By.css('.group-div .control-input')).length).toBe(2);
+    });
 
-  it('should render multi controls with multi groups', () => {
-    const control1 = new VfFormControl(TestInputControlComponent);
-    const control2 = new VfFormControl(TestInputControlComponent);
-    const control3 = new VfFormControl(TestInputControlComponent);
-    const control4 = new VfFormControl(TestInputControlComponent);
+    it('multi controls with multi groups', () => {
+      const control1 = new VfFormControl(TestInputControlComponent);
+      const control2 = new VfFormControl(TestInputControlComponent);
+      const control3 = new VfFormControl(TestInputControlComponent);
+      const control4 = new VfFormControl(TestInputControlComponent);
 
-    const group1 = new VfFormGroup(TestDivGroupComponent, { test1: control1, test2: control2 });
-    const group2 = new VfFormGroup(TestDivGroupComponent, { test3: control3, test4: control4 });
-    component.group = new VfFormGroup(TestDivGroupComponent, { g1: group1, g2: group2 });
-    fixture.detectChanges();
-    expect(fixture.debugElement.queryAll(By.css('.group-div')).length).toBe(3);
-    expect(fixture.debugElement.queryAll(By.css('.control-input')).length).toBe(4);
-    expect(fixture.debugElement.queryAll(By.css('.group-div .control-input')).length).toBe(4);
+      const group1 = new VfFormGroup(TestDivGroupComponent, { test1: control1, test2: control2 });
+      const group2 = new VfFormGroup(TestDivGroupComponent, { test3: control3, test4: control4 });
+      component.group = new VfFormGroup(TestDivGroupComponent, { g1: group1, g2: group2 });
+      fixture.detectChanges();
+      expect(fixture.debugElement.queryAll(By.css('.group-div')).length).toBe(3);
+      expect(fixture.debugElement.queryAll(By.css('.control-input')).length).toBe(4);
+      expect(fixture.debugElement.queryAll(By.css('.group-div .group-div .control-input')).length).toBe(4);
+    });
   });
 });
 
-
 @Component({
-  template: `
-    <div [vfRender]='group'></div>
-  `
+  template: ` <div [vf]="group"></div> `,
 })
 class TestVfRenderComponent {
   group: VfFormGroup;
 }
 
 @Component({
-  template: `<input class='control-input' />`
+  template: `<input class="control-input" />`,
 })
 class TestInputControlComponent implements FormControlTemplate {
   readonly control: VfFormControl;
@@ -71,9 +70,10 @@ class TestInputControlComponent implements FormControlTemplate {
 
 @Component({
   template: `
-    <div class='group-div'>
+    <div class="group-div">
       <ng-content></ng-content>
-    </div>`
+    </div>
+  `,
 })
 class TestDivGroupComponent implements FormGroupTemplate {
   readonly group: VfFormGroup;

@@ -8,7 +8,7 @@
     "build:vf": "ng build vf --prod",
     "build:vf-antd": "ng build vf-antd --prod",
     "build:lib": "yarn run build:vf && yarn run build:vf-antd",
-    "test": "ng test vf",
+    "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "dev:ssr": "ng run visual-form-app:serve-ssr",
