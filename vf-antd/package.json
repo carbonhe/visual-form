@@ -12,5 +12,5 @@
     "ng-zorro-antd": "^10.1.0",
     "tslib": "^2.0.0"
   },
-  "main": "./src/index.ts"
+  "main": "index.ts"
 }

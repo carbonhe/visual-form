@@ -8,17 +8,19 @@ import { IndicatorComponent } from './components/indicator.component';
 
 import { SortablejsModule } from 'ngx-sortablejs';
 import { PortalModule } from '@angular/cdk/portal';
-import { InternalRenderComponent, RenderComponent } from './components/render.component';
+import { DeleteIconComponent } from 'visual-form/workspace/icons/delete.component';
+import { HandleIconComponent } from 'visual-form/workspace/icons/handle.component';
 
 @NgModule({
   declarations: [
+    DeleteIconComponent,
+    HandleIconComponent,
     WorkspaceComponent,
-    RenderComponent,
     ComponentPanelComponent,
     LayoutPanelComponent,
     PropertyPanelComponent,
-    IndicatorComponent,
-    InternalRenderComponent
+    IndicatorComponent
+
   ],
   exports: [WorkspaceComponent],
   imports: [CommonModule, SortablejsModule, PortalModule]

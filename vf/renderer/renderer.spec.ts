@@ -1,9 +1,15 @@
 import { Component } from '@angular/core';
-import { FormControlTemplate, FormGroupTemplate, VfFormControl, VfFormGroup } from './types';
+import {
+  FormControlTemplate,
+  FormControlWrapperTemplate,
+  FormGroupTemplate,
+  VfFormControl,
+  VfFormGroup
+} from './types';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { VfRendererModule } from './vf-renderer.module';
+import { VfRendererModule } from './renderer.module';
 import { By } from '@angular/platform-browser';
-import { RenderErrors } from './vf-renderer';
+import { RenderErrors } from './renderer';
 import { FormControl } from '@angular/forms';
 
 describe('vf-renderer', () => {
@@ -13,7 +19,7 @@ describe('vf-renderer', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [VfRendererModule],
-      declarations: [TestVfRenderComponent, TestInputControlComponent, TestDivGroupComponent],
+      declarations: [TestVfRenderComponent, TestInputControlComponent, TestDivGroupComponent, TestDivWrapperComponent]
     });
     fixture = TestBed.createComponent(TestVfRenderComponent);
     component = fixture.componentInstance;
@@ -75,18 +81,33 @@ describe('vf-renderer', () => {
       expect(fixture.debugElement.queryAll(By.css('.control-input')).length).toBe(4);
       expect(fixture.debugElement.queryAll(By.css('.group-div .group-div .control-input')).length).toBe(4);
     });
+
+    it('with wrapper component', () => {
+
+      const props = { c: 3, p: 0 };
+
+      const control = new VfFormControl(TestInputControlComponent, TestDivWrapperComponent, props);
+      component.group = new VfFormGroup(TestDivGroupComponent, { test: control });
+      fixture.detectChanges();
+      expect(fixture.debugElement.queryAll(By.css('.wrapper-div')).length).toBe(1);
+      expect(fixture.debugElement.queryAll(By.css('.group-div .wrapper-div .control-input')).length).toBe(1);
+      const wrapperDebugElement = fixture.debugElement.query(By.directive(TestDivWrapperComponent));
+      console.log(wrapperDebugElement);
+      expect(wrapperDebugElement.componentInstance.props).toBe(props);
+    });
   });
 });
 
 @Component({
-  template: ` <div [vf]="group"></div> `,
+  template: `
+    <div [vf]='group'></div> `
 })
 class TestVfRenderComponent {
   group: VfFormGroup;
 }
 
 @Component({
-  template: `<input class="control-input" />`,
+  template: `<input class='control-input' />`
 })
 class TestInputControlComponent implements FormControlTemplate {
   readonly control: VfFormControl;
@@ -94,11 +115,23 @@ class TestInputControlComponent implements FormControlTemplate {
 
 @Component({
   template: `
-    <div class="group-div">
+    <div class='group-div'>
       <ng-content></ng-content>
     </div>
-  `,
+  `
 })
 class TestDivGroupComponent implements FormGroupTemplate {
   readonly group: VfFormGroup;
+}
+
+
+@Component({
+  template: `
+    <div class='wrapper-div'>
+      <ng-content></ng-content>
+    </div>
+  `
+})
+class TestDivWrapperComponent implements FormControlWrapperTemplate {
+  props: any;
 }

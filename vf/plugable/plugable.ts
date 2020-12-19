@@ -1,5 +1,6 @@
 import { TemplateRef, Type } from '@angular/core';
-import { FormControlTemplate } from '../../renderer/types';
+import { FormControlTemplate, FormControlWrapperTemplate, FormGroupTemplate } from '../renderer/types';
+import { MetadataTransformer, Pairs } from 'visual-form/workspace/types';
 
 export interface VfPlugin {
   id: string;
@@ -8,7 +9,9 @@ export interface VfPlugin {
 }
 
 export interface VfPlatform extends VfPlugin {
-  rendererType?: Type<any>;
+  propertyPanelGroup: Type<FormGroupTemplate>;
+  rootGroup: Type<FormGroupTemplate>;
+  defaultControlWrapper?: Type<FormControlWrapperTemplate>;
 }
 
 
@@ -22,11 +25,18 @@ export interface VfPanel<T extends FormControlTemplate> {
 
   id: string;
 
+  title: string;
+
   order: number;
 
-  apply(indicatorId: string): boolean;
+  props?: Pairs;
+
+  apply?(indicatorId: string): boolean;
 
   panelType: Type<T>;
+
+  transformer?: MetadataTransformer;
+
 }
 
 

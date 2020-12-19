@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { DragDropService } from '../services/drag-drop.service';
+import { WorkspaceContext } from '../workspace-context';
 import { Options } from 'sortablejs';
-import { PluginService } from '../plugable/plugin.service';
-import { VfIndicator } from '../plugable/plugable';
+import { PluginService } from '../../plugable/plugin.service';
+import { VfIndicator } from '../../plugable/plugable';
 
 @Component({
   selector: 'vf-component-panel',
@@ -30,7 +30,7 @@ export class ComponentPanelComponent implements OnInit {
     return this.pluginService.indicators;
   }
 
-  constructor(private dcs: DragDropService,
+  constructor(private dcs: WorkspaceContext,
               private pluginService: PluginService) {
 
     this.sortableOptions = { ...dcs.sharedOptions, ...{ animation: 150, sort: false, onEnd: this.dcs.drop } };

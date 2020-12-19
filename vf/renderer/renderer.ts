@@ -1,10 +1,11 @@
-import { ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef } from '@angular/core';
 import { VfFormControl, VfFormGroup } from './types';
 import { AbstractControl } from '@angular/forms';
 
 @Injectable({ providedIn: 'root' })
-export class VfRenderer {
-  constructor(private componentResolver: ComponentFactoryResolver) {}
+export class VfRenderer{
+  constructor(private componentResolver: ComponentFactoryResolver) {
+  }
 
   render(viewContainer: ViewContainerRef, control: AbstractControl): ComponentRef<any> {
     this.check(control);
@@ -12,6 +13,12 @@ export class VfRenderer {
       const factory = this.componentResolver.resolveComponentFactory(control.component);
       const componentRef = viewContainer.createComponent(factory);
       componentRef.instance.control = control;
+      if (control.wrapper) {
+        const wrapperFactory = this.componentResolver.resolveComponentFactory(control.wrapper);
+        const wrapperComponentRef = viewContainer.createComponent(wrapperFactory, null, null, [[componentRef.location.nativeElement.firstElementChild]]);
+        wrapperComponentRef.instance.props = control.props;
+        return wrapperComponentRef;
+      }
       return componentRef;
     } else if (control instanceof VfFormGroup) {
       const controls = control.controls;
@@ -23,12 +30,16 @@ export class VfRenderer {
         }
       }
       const componentRef = viewContainer.createComponent(this.componentResolver.resolveComponentFactory(control.component), null, null, [
-        children.map(e => e.location.nativeElement),
+        children.map(e => e.location.nativeElement.firstElementChild)
       ]);
       componentRef.instance.group = control;
       return componentRef;
     }
   }
+
+
+
+
 
   private check(control: AbstractControl) {
     if (control instanceof VfFormControl || control instanceof VfFormGroup) {
@@ -43,5 +54,5 @@ export class VfRenderer {
 
 export const RenderErrors = {
   MISSING_COMPONENT: 'Component must be associated!',
-  TYPE_MISMATCH: 'parameter `control` must be an instance of VfFormControl or VfFormGroup!',
+  TYPE_MISMATCH: 'parameter `control` must be an instance of VfFormControl or VfFormGroup!'
 };

@@ -1,5 +1,6 @@
 import { Injectable, Type } from '@angular/core';
 import { VfIndicator, VfPanel, VfPlatform, VfPlugin } from './plugable';
+import { FormControlTemplate, FormControlWrapperTemplate, FormGroupTemplate } from '../renderer/types';
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +11,13 @@ export class PluginService {
 
   private plugins: VfPlugin[] = [];
 
+
   usePlatform(platform: VfPlatform) {
     if (this.platform) {
       throw new Error(`There is a platform '${this.platform.id}' has already be used!`);
     }
     this.platform = platform;
+    this.plugins.push(platform);
   }
 
   usePlugin(...plugin: VfPlugin[]) {
@@ -29,19 +32,38 @@ export class PluginService {
 
   get indicators(): VfIndicator[] {
     this.checkPlatform();
-    const indicatorsInPlatform = this.platform.controlMap.keys();
-    const indicatorsInPlugin = this.plugins.flatMap(e => Array.from(e.controlMap.keys()));
-    return [...indicatorsInPlatform, ...indicatorsInPlugin];
+    return this.plugins.flatMap(e => Array.from(e.controlMap.keys()));
   }
 
-  get rendererType(): Type<any> {
-    return this.platform.rendererType;
+  get propertyPanelGroup(): Type<FormGroupTemplate> {
+    return this.platform.propertyPanelGroup;
   }
+
+  get rootGroup(): Type<FormGroupTemplate> {
+    return this.platform.rootGroup;
+  }
+
+  get defaultControlWrapper(): Type<FormControlWrapperTemplate> {
+    return this.platform.defaultControlWrapper;
+  }
+
+
+  findControl(indicatorId: string): Type<FormControlTemplate> {
+    for (const plugin of this.plugins) {
+      for (const [k, v] of plugin.controlMap) {
+        if (k.id === indicatorId) {
+          return v;
+        }
+      }
+    }
+    throw Error(`There is no component match indicator: ${indicatorId}`);
+  }
+
 
   getPanels(indicatorId: string): VfPanel<any>[] {
     this.checkPlatform();
     return [...this.platform.panels, ...this.plugins.flatMap(e => e.panels)]
-      .filter(e => e.apply(indicatorId))
+      .filter(e => !e.apply || e.apply(indicatorId))
       .sort((a, b) => a.order - b.order);
   }
 

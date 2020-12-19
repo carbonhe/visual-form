@@ -1,18 +1,23 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { DragDropService } from '../services/drag-drop.service';
+import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { PropertyPanel } from 'visual-form/workspace/property-panel';
 
 @Component({
   selector: 'vf-property-panel',
   template: `
-    <div class="property-container">
+    <div #propertyContainer>
 
     </div>
   `,
   styleUrls: [`./styles.less`]
 })
 export class PropertyPanelComponent implements OnInit {
-  constructor(public dragDropService: DragDropService, private viewContainer: ViewContainerRef) {
-    dragDropService.panelContainerRef = viewContainer;
+
+  @ViewChild('propertyContainer', { read: ViewContainerRef })
+  set container(viewContainer: ViewContainerRef) {
+    this.propertyService.setViewContainer(viewContainer);
+  }
+
+  constructor(private propertyService: PropertyPanel) {
   }
 
   ngOnInit(): void {

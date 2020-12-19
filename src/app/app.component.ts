@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { RenderComponent } from 'visual-form';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { ControlSetting } from 'visual-form/workspace/types';
+import { VfContainerComponent } from 'visual-form/renderer/container.component';
 
 @Component({
   selector: 'app-root',
@@ -11,12 +12,12 @@ export class AppComponent {
   constructor(private modal: NzModalService) {
   }
 
-  controls: any[];
+  controls: ControlSetting[] = [];
 
   preview() {
     this.modal.create({
       nzTitle: 'preview',
-      nzContent: RenderComponent,
+      nzContent: VfContainerComponent,
       nzComponentParams: {
         controls: this.controls
       }

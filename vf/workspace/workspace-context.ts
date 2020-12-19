@@ -1,38 +1,41 @@
-import { ChangeDetectorRef, Injectable, NgZone, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Injectable, NgZone } from '@angular/core';
 import { Options, SortableEvent } from 'sortablejs';
 import { Subject } from 'rxjs';
-import { PropertyPanelService } from './property-panel.service';
+import { PropertyPanel } from './property-panel';
+import { ControlSetting } from './types';
+
 
 @Injectable()
-export class DragDropService {
+export class WorkspaceContext {
   private static globalId = 0;
 
-  private _selected: any;
+  private _selected: ControlSetting;
 
-  selectedChanges = new Subject<any[]>();
+  selectedChanges = new Subject<ControlSetting[]>();
 
-  controls: any[] = [];
+  controls: ControlSetting[] = [];
 
-
-  panelContainerRef: ViewContainerRef;
 
   private readonly groupName: string;
 
   constructor(private cdr: ChangeDetectorRef,
               private ngZone: NgZone,
-              private panelService: PropertyPanelService) {
-    this.groupName = `sort_group_${DragDropService.globalId++}`;
+              private propertyPanel: PropertyPanel) {
+    this.groupName = `sort_group_${WorkspaceContext.globalId++}`;
   }
 
 
-  get selected(): any {
+  get selected(): ControlSetting {
     return this._selected;
   }
 
-  set selected(props: any) {
-    this._selected = props;
+  set selected(setting: ControlSetting) {
+    this._selected = setting;
 
-    this.panelService.changePanel(props);
+
+    if (setting) {
+      this.propertyPanel.createPanel(setting);
+    }
 
     this.cdr.detectChanges();
   }
@@ -46,8 +49,8 @@ export class DragDropService {
     this.selectedChanges.next(this.controls);
   };
 
-  delete(control: any) {
-    this.panelService.clear(control.id);
+  delete(control: ControlSetting) {
+    this.propertyPanel.clear();
     this.controls = this.controls.filter(e => e !== control);
     this.selected = this.controls.length > 0 ? this.controls[this.controls.length - 1] : null;
     this.selectedChanges.next(this.controls);

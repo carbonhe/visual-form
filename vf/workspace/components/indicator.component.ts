@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { VfIndicator } from '../plugable/plugable';
+import { VfIndicator } from '../../plugable/plugable';
 
 @Component({
   selector: 'vf-indicator',
