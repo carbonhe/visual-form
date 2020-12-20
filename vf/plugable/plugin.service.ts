@@ -17,18 +17,18 @@ export class PluginService {
       throw new Error(`There is a platform '${this._platform.id}' has already be used!`);
     }
     this._platform = platform;
-    this.plugins.push(platform);
+    this.usePlugin(platform);
   }
 
   get platform(): VfPlatform {
     return this._platform;
   }
 
-  usePlugin(...plugin: VfPlugin[]) {
-    if (plugin) {
-      plugin.forEach(p => {
-        if (p) {
-          this.plugins.push(p);
+  usePlugin(...plugins: VfPlugin[]) {
+    if (plugins) {
+      plugins.forEach(plugin => {
+        if (plugin) {
+          this.plugins.push(plugin);
         }
       });
     }
@@ -53,11 +53,15 @@ export class PluginService {
 
 
   getProperties(indicatorId: string): VfProperty[] {
-    this.checkPlatform();
     return this.plugins.flatMap(plugin => plugin.controlDescriptors)
       .find(descriptor => descriptor.indicator.id === indicatorId)
       .properties;
+  }
 
+  getProperty(propertyId: string): VfProperty {
+    return this.plugins.flatMap(plugin => plugin.controlDescriptors)
+      .flatMap(descriptor => descriptor.properties)
+      .find(property => property.id === propertyId);
   }
 
   private checkPlatform() {

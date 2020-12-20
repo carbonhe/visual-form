@@ -21,14 +21,22 @@ export class AppComponent {
 
 
   preview() {
-    this.modal.create({
+    const modal = this.modal.create({
       nzTitle: '表单',
       nzContent: VfContainerComponent,
       nzComponentParams: {
         controls: this.controls
       },
-      nzOnOk: () => this.logFormValue()
-    }).componentInstance.renderCompleted.subscribe(form => this.form = form);
+      nzOnOk: () => this.logFormValue(),
+      nzOkDisabled: true
+    });
+    modal.componentInstance.renderCompleted.subscribe(form => {
+      this.form = form;
+      modal.updateConfig({ nzOkDisabled: this.form.invalid });
+      this.form.valueChanges.subscribe(_ => {
+        modal.updateConfig({ nzOkDisabled: this.form.invalid });
+      });
+    });
   }
 
   private logFormValue() {

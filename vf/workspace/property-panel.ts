@@ -58,7 +58,7 @@ export class PropertyPanel {
     this.viewContainer = viewContainer;
   }
 
-  private saveMetadata(panel: VfProperty<any>, setting: ControlSetting, controlValue: any) {
+  private saveMetadata(panel: VfProperty, setting: ControlSetting, controlValue: any) {
 
     setting[VF_METADATA] = setting[VF_METADATA] ?? {};
 

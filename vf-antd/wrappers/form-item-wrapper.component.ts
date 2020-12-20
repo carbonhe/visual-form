@@ -7,7 +7,8 @@ import { CommonControlSetting } from 'visual-form/workspace/types';
   template: `
     <nz-col [nzSpan]='props.span'>
       <nz-form-item>
-        <nz-form-label [nzSpan]='6' [nzFor]='props.id' [nzTooltipTitle]='props.description'>
+        <nz-form-label [nzRequired]='props.required' [nzSpan]='6' [nzFor]='props.id'
+                       [nzTooltipTitle]='props.description'>
           {{props.title}}
         </nz-form-label>
         <nz-form-control [nzSpan]='18'>
