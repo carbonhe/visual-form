@@ -45,8 +45,11 @@ export class WorkspaceContext {
   }
 
   drop = (event: SortableEvent) => {
-    this.ngZone.run(() => (this.selected = this.controls[event.newIndex]));
-    this.selectedChanges.next(this.controls);
+    if (this.shouldReselect(event)) {
+      this.ngZone.run(() => (this.selected = this.controls[event.newIndex]));
+      this.selectedChanges.next(this.controls);
+    }
+
   };
 
   delete(control: ControlSetting) {
@@ -54,5 +57,10 @@ export class WorkspaceContext {
     this.controls = this.controls.filter(e => e !== control);
     this.selected = this.controls.length > 0 ? this.controls[this.controls.length - 1] : null;
     this.selectedChanges.next(this.controls);
+  }
+
+  private shouldReselect(event: SortableEvent): boolean {
+    const className = 'indicators-container';
+    return !event.from.classList.contains(className) || !event.to.classList.contains(className);
   }
 }

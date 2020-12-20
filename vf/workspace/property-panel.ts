@@ -3,7 +3,7 @@ import { PluginService } from '../plugable/plugin.service';
 import { VfFormControl, VfFormGroup } from '../renderer/types';
 import { VfRenderer } from '../renderer/renderer';
 import { ControlSetting, VF_METADATA } from './types';
-import { VfPanel } from 'visual-form/plugable/plugable';
+import { VfProperty } from 'visual-form/plugable/plugable';
 
 @Injectable()
 export class PropertyPanel {
@@ -17,15 +17,15 @@ export class PropertyPanel {
 
     this.viewContainer.clear();
 
-    const panels = this.pluginService.getPanels(setting.indicatorId);
+    const panels = this.pluginService.getProperties(setting.indicatorId);
 
     const controls: { [key: string]: VfFormControl } = {};
 
     panels.forEach(panel => {
-      const control = new VfFormControl(panel.panelType, this.pluginService.defaultControlWrapper, {
+      const control = new VfFormControl(panel.template, this.pluginService.platform.defaultControlWrapper, {
         id: panel.id,
         title: panel.title,
-        ...(panel.props ?? {})
+        ...(panel.templateProps ?? {})
       });
 
       control.valueChanges.subscribe(v => {
@@ -39,7 +39,7 @@ export class PropertyPanel {
     });
 
 
-    const group = new VfFormGroup(this.pluginService.propertyPanelGroup, controls);
+    const group = new VfFormGroup(this.pluginService.platform.propertyPanelGroup, controls);
 
     // Avoid patch value with metadata
     const settingCopy = { ...setting };
@@ -58,7 +58,7 @@ export class PropertyPanel {
     this.viewContainer = viewContainer;
   }
 
-  private saveMetadata(panel: VfPanel<any>, setting: ControlSetting, controlValue: any) {
+  private saveMetadata(panel: VfProperty<any>, setting: ControlSetting, controlValue: any) {
 
     setting[VF_METADATA] = setting[VF_METADATA] ?? {};
 

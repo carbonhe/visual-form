@@ -21,10 +21,10 @@ export class VfContainerComponent implements OnInit {
   ngOnInit(): void {
     const vfControls = {};
     this.controls.forEach(control => {
-      vfControls[control.id] = new VfFormControl(this.pluginService.findControl(control.indicatorId), this.pluginService.defaultControlWrapper, control);
+      vfControls[control.id] = new VfFormControl(this.pluginService.findControl(control.indicatorId), this.pluginService.platform.defaultControlWrapper, control);
     });
 
-    this.vf = new VfFormGroup<any>(this.pluginService.rootGroup, vfControls);
+    this.vf = new VfFormGroup<any>(this.pluginService.platform.rootGroup, vfControls);
   }
 
 

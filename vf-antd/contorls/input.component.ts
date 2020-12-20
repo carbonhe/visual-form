@@ -3,13 +3,11 @@ import { FormControlTemplate, VfFormControl } from 'visual-form/renderer/types';
 
 @Component({
   template: `
-    <input nz-input [type]='control.props?.type' [formControl]='control' />
+    <input nz-input type='text' [formControl]='control' />
   `
 })
-export class InputComponent implements FormControlTemplate<InputProps> {
-  readonly control: VfFormControl<InputProps>;
+export class InputComponent implements FormControlTemplate {
+  readonly control: VfFormControl;
 }
 
-export interface InputProps {
-  type: string;
-}
+

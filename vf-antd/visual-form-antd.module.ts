@@ -1,4 +1,4 @@
-import { NgModule, Type } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { PortalModule } from '@angular/cdk/portal';
@@ -8,15 +8,15 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { VfWorkspaceModule } from 'visual-form';
 import { PluginService } from 'visual-form/plugable/plugin.service';
-import { VfIndicator, VfPanel, VfPlatform } from 'visual-form/plugable/plugable';
+import { VfControlDescriptor, VfPlatform } from 'visual-form/plugable/plugable';
 import { InputComponent } from './contorls/input.component';
-import { FormControlTemplate } from 'visual-form/renderer/types';
-import { indicators } from './indicators';
 import { DivGroupComponent } from 'visual-form-antd/groups/div-group.component';
 import { FormItemWrapperComponent } from 'visual-form-antd/wrappers/form-item-wrapper.component';
 import { GridGroupComponent } from 'visual-form-antd/groups/grid-group.component';
+import { InputNumberComponent } from 'visual-form-antd/contorls/input-number.component';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 
-const controls = [InputComponent];
+const controls = [InputComponent, InputNumberComponent];
 const groups = [DivGroupComponent, GridGroupComponent];
 const wrappers = [FormItemWrapperComponent];
 
@@ -33,7 +33,8 @@ const wrappers = [FormItemWrapperComponent];
     PortalModule,
     ReactiveFormsModule,
     NzToolTipModule,
-    NzFormModule
+    NzFormModule,
+    NzInputNumberModule
   ]
 })
 export class VisualFormAntdModule {
@@ -44,43 +45,62 @@ export class VisualFormAntdModule {
 
   get platform(): VfPlatform {
 
-    const panels: VfPanel<any>[] = [
+
+    const controlDescriptors: VfControlDescriptor[] = [
       {
-        id: 'id',
-        title: '唯一标识',
-        order: 0,
-        panelType: InputComponent
+        indicator: indicators.input,
+        template: InputComponent,
+        properties: [properties.id, properties.title, properties.span, properties.description]
       },
       {
-        id: 'title',
-        title: '标题',
-        order: 0,
-        panelType: InputComponent
-      },
-      {
-        id: 'span',
-        title: '宽度',
-        order: 0,
-        panelType: InputComponent,
-        props: { type: 'number' }
-      },
-      {
-        id: 'description',
-        title: '描述',
-        order: 0,
-        panelType: InputComponent
+        indicator: indicators.inputNumber,
+        template: InputNumberComponent,
+        properties: [properties.id, properties.title, properties.span, properties.description]
       }
     ];
-    const controlMap = new Map<VfIndicator, Type<FormControlTemplate>>([
-      [indicators.input, InputComponent]
-    ]);
     return {
       id: 'antd',
-      panels,
-      controlMap,
+      controlDescriptors,
       propertyPanelGroup: DivGroupComponent,
       rootGroup: GridGroupComponent,
       defaultControlWrapper: FormItemWrapperComponent
     };
   }
 }
+
+export const indicators = {
+  input: {
+    id: 'input',
+    title: '输入框',
+    icon: null
+  },
+  inputNumber: {
+    id: 'inputNumber',
+    title: '数字输入框',
+    icon: null
+  }
+};
+
+export const properties = {
+  id: {
+    id: 'id',
+    title: '唯一标识',
+    template: InputComponent
+  },
+  title: {
+    id: 'title',
+    title: '标题',
+    template: InputComponent
+  },
+  span: {
+    id: 'span',
+    title: '宽度',
+    template: InputNumberComponent,
+    templateProps: { min: 1, max: 24 }
+  },
+  description: {
+    id: 'description',
+    title: '描述',
+    template: InputComponent
+  }
+};

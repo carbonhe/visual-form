@@ -4,8 +4,7 @@ import { MetadataTransformer, Pairs } from 'visual-form/workspace/types';
 
 export interface VfPlugin {
   id: string;
-  panels: VfPanel<any>[];
-  controlMap: Map<VfIndicator, Type<FormControlTemplate>>;
+  controlDescriptors: VfControlDescriptor[];
 }
 
 export interface VfPlatform extends VfPlugin {
@@ -21,22 +20,24 @@ export interface VfIndicator {
   icon: TemplateRef<any> | Type<any>;
 }
 
-export interface VfPanel<T extends FormControlTemplate> {
+export interface VfProperty<T extends FormControlTemplate = any> {
 
   id: string;
 
   title: string;
 
-  order: number;
+  template: Type<T>;
 
-  props?: Pairs;
-
-  apply?(indicatorId: string): boolean;
-
-  panelType: Type<T>;
+  templateProps?: Pairs;
 
   transformer?: MetadataTransformer;
 
+}
+
+export interface VfControlDescriptor {
+  indicator: VfIndicator;
+  template: Type<FormControlTemplate>;
+  properties: VfProperty[];
 }
 
 

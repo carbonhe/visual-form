@@ -8,14 +8,14 @@ import { VfIndicator } from '../../plugable/plugable';
   selector: 'vf-component-panel',
   template: `
     <div
-      style="height: 100%"
-      [sortablejs]="indicators"
-      [sortablejsOptions]="sortableOptions"
-      [sortablejsCloneFunction]="cloneFunction"
+      class='indicators-container'
+      [sortablejs]='indicators'
+      [sortablejsOptions]='sortableOptions'
+      [sortablejsCloneFunction]='cloneFunction'
     >
-      <div style="opacity: 1;" class="indicator-wrapper" [ngStyle]="{ width: width }"
-           *ngFor="let indicator of indicators">
-        <vf-indicator [indicator]="indicator"></vf-indicator>
+      <div class='indicator-wrapper' [ngStyle]='{ width: width }'
+           *ngFor='let indicator of indicators'>
+        <vf-indicator [indicator]='indicator'></vf-indicator>
       </div>
     </div>
   `
