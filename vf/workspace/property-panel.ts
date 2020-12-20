@@ -17,25 +17,25 @@ export class PropertyPanel {
 
     this.viewContainer.clear();
 
-    const panels = this.pluginService.getProperties(setting.indicatorId);
+    const properties = this.pluginService.getProperties(setting.indicatorId);
 
     const controls: { [key: string]: VfFormControl<any> } = {};
 
-    panels.forEach(panel => {
-      const control = new VfFormControl(panel.template, this.pluginService.platform.defaultControlWrapper, {
-        id: panel.id,
-        title: panel.title,
-        ...(panel.templateProps ?? {})
+    properties.forEach(property => {
+      const control = new VfFormControl(property.template, this.pluginService.platform.defaultControlWrapper, {
+        id: property.id,
+        title: property.title,
+        ...(property.templateProps ?? {})
       });
 
       control.valueChanges.subscribe(v => {
-        setting[panel.id] = v;
-        if (panel.transformer) {
-          this.saveMetadata(panel, setting, v);
+        setting[property.id] = v;
+        if (property.transformer) {
+          this.saveMetadata(property, setting, v);
         }
       });
 
-      controls[panel.id] = control;
+      controls[property.id] = control;
     });
 
 
