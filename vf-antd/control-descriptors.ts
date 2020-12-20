@@ -5,6 +5,7 @@ import { DropdownComponent, DropdownProps } from 'visual-form-antd/contorls/drop
 import { Pairs } from 'visual-form/workspace/types';
 import { VfFormControl } from 'visual-form/renderer/types';
 import { Validators } from '@angular/forms';
+import { TextareaComponent } from 'visual-form-antd/contorls/textarea.component';
 
 const indicators: { [key: string]: VfIndicator } = {
   input: {
@@ -15,6 +16,11 @@ const indicators: { [key: string]: VfIndicator } = {
   inputNumber: {
     id: 'inputNumber',
     title: '数字输入框',
+    icon: null
+  },
+  textarea: {
+    id: 'textarea',
+    title: '文本域',
     icon: null
   }
 };
@@ -74,6 +80,12 @@ const properties: { [key: string]: VfProperty } = {
     id: 'max',
     title: '最大值',
     template: InputNumberComponent
+  },
+  rows: {
+    id: 'rows',
+    title: '行数',
+    template: InputNumberComponent,
+    templateProps: { min: 1 } as InputNumberProps
   }
 };
 
@@ -87,6 +99,11 @@ export const controlDescriptors: VfControlDescriptor[] = [
     indicator: indicators.inputNumber,
     template: InputNumberComponent,
     properties: [properties.id, properties.title, properties.span, properties.required, properties.description, properties.min, properties.max]
+  },
+  {
+    indicator: indicators.textarea,
+    template: TextareaComponent,
+    properties: [properties.id, properties.title, properties.span, properties.required, properties.description, properties.rows]
   }
 ];
 

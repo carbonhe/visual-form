@@ -18,8 +18,9 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { DropdownComponent } from 'visual-form-antd/contorls/dropdown.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { controlDescriptors } from './control-descriptors';
+import { TextareaComponent } from 'visual-form-antd/contorls/textarea.component';
 
-const controls = [InputComponent, InputNumberComponent, DropdownComponent];
+const controls = [InputComponent, InputNumberComponent, DropdownComponent, TextareaComponent];
 const groups = [DivGroupComponent, GridGroupComponent];
 const wrappers = [FormItemWrapperComponent];
 
