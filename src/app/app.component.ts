@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { ControlSetting } from 'visual-form/workspace/types';
 import { VfContainerComponent } from 'visual-form/renderer/container.component';
+import { FormGroup } from '@angular/forms';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'app-root',
@@ -9,18 +11,28 @@ import { VfContainerComponent } from 'visual-form/renderer/container.component';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent {
-  constructor(private modal: NzModalService) {
+
+  private form: FormGroup;
+
+  constructor(private modal: NzModalService, private notification: NzNotificationService) {
   }
 
   controls: ControlSetting[] = [];
 
+
   preview() {
     this.modal.create({
-      nzTitle: 'preview',
+      nzTitle: '表单',
       nzContent: VfContainerComponent,
       nzComponentParams: {
         controls: this.controls
-      }
-    });
+      },
+      nzOnOk: () => this.logFormValue()
+    }).componentInstance.renderCompleted.subscribe(form => this.form = form);
+  }
+
+  private logFormValue() {
+    console.log(this.form.value);
+    this.notification.info('表单数据', `<pre>${JSON.stringify(this.form.value, null, 2)}</pre>`);
   }
 }

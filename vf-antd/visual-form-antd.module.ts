@@ -55,7 +55,7 @@ export class VisualFormAntdModule {
       {
         indicator: indicators.inputNumber,
         template: InputNumberComponent,
-        properties: [properties.id, properties.title, properties.span, properties.description]
+        properties: [properties.id, properties.title, properties.span, properties.description, properties.min, properties.max]
       }
     ];
     return {
@@ -102,5 +102,15 @@ export const properties = {
     id: 'description',
     title: '描述',
     template: InputComponent
+  },
+  min: {
+    id: 'min',
+    title: '最小值',
+    template: InputNumberComponent
+  },
+  max: {
+    id: 'max',
+    title: '最大值',
+    template: InputNumberComponent
   }
 };

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { WorkspaceContext } from '../workspace-context';
 import { PropertyPanel } from '../property-panel';
+import { ControlSetting } from 'visual-form/workspace/types';
 
 @Component({
   selector: 'vf-workspace',
@@ -26,10 +27,10 @@ export class WorkspaceComponent implements OnInit {
   }
 
   @Input()
-  controls: any[];
+  controls: ControlSetting[];
 
   @Output()
-  controlsChange = new EventEmitter<any[]>();
+  controlsChange = new EventEmitter<ControlSetting[]>();
 
   ngOnInit(): void {
     this._dcs.controls = this.controls || [];

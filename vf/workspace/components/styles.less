@@ -1,6 +1,7 @@
 //region workspace.component.ts
 .main-layout {
   height: 100%;
+  background: #ffffff;
   display: flex;
 }
 
@@ -24,8 +25,11 @@
 }
 
 .property-panel {
-  width: 20%;
   .panel();
+  width: 20%;
+  overflow-y: auto;
+  padding-top: 20px;
+  padding-right: 20px;
 }
 
 //endregion
@@ -34,7 +38,17 @@
 
 .indicators-container {
   height: 100%;
+  overflow-y: auto;
   display: flex;
+
+  & .indicator:hover {
+    color: #409eff;
+    border: 1px dashed #409eff;
+  }
+}
+
+.indicator-wrapper {
+  height: fit-content;
 }
 
 .indicator {
@@ -52,6 +66,7 @@
 //region layout-panel.component.ts
 .layout-container {
   background-color: rgb(246, 245, 246);
+  overflow-y: auto;
   height: 100%;
   width: 100%;
   flex-wrap: wrap;
@@ -107,10 +122,3 @@
 
 //endregion
 
-//region Description
-.property-panel {
-  padding-top: 20px;
-  padding-right: 20px;
-}
-
-//endregion

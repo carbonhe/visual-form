@@ -23,7 +23,8 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "allowedCommonJsDependencies": [
-              "@ant-design/colors"
+              "@ant-design/colors",
+              "tinycolor2"
             ],
             "aot": true,
             "assets": [

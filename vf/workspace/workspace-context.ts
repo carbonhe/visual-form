@@ -46,7 +46,7 @@ export class WorkspaceContext {
 
   drop = (event: SortableEvent) => {
     if (this.shouldReselect(event)) {
-      this.ngZone.run(() => (this.selected = this.controls[event.newIndex]));
+      this.selected = this.controls[event.newIndex];
       this.selectedChanges.next(this.controls);
     }
 
