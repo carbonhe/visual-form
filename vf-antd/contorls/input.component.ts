@@ -7,7 +7,7 @@ import { FormControlTemplate, VfFormControl } from 'visual-form/renderer/types';
   `
 })
 export class InputComponent implements FormControlTemplate {
-  readonly control: VfFormControl;
+  readonly control: VfFormControl<any>;
 }
 
 

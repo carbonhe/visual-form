@@ -26,7 +26,7 @@ export class VfRenderer {
 
       for (const controlName in controls) {
         if (controls.hasOwnProperty(controlName)) {
-          children.push(this.render(viewContainer, controls[controlName] as VfFormControl | VfFormGroup));
+          children.push(this.render(viewContainer, controls[controlName] as VfFormControl<any> | VfFormGroup<any>));
         }
       }
       const componentRef = viewContainer.createComponent(this.componentResolver.resolveComponentFactory(control.component), null, null, [

@@ -8,15 +8,18 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { VfWorkspaceModule } from 'visual-form';
 import { PluginService } from 'visual-form/plugable/plugin.service';
-import { VfControlDescriptor, VfPlatform } from 'visual-form/plugable/plugable';
+import { VfPlatform } from 'visual-form/plugable/plugable';
 import { InputComponent } from './contorls/input.component';
 import { DivGroupComponent } from 'visual-form-antd/groups/div-group.component';
 import { FormItemWrapperComponent } from 'visual-form-antd/wrappers/form-item-wrapper.component';
 import { GridGroupComponent } from 'visual-form-antd/groups/grid-group.component';
 import { InputNumberComponent } from 'visual-form-antd/contorls/input-number.component';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { DropdownComponent } from 'visual-form-antd/contorls/dropdown.component';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { controlDescriptors } from './control-descriptors';
 
-const controls = [InputComponent, InputNumberComponent];
+const controls = [InputComponent, InputNumberComponent, DropdownComponent];
 const groups = [DivGroupComponent, GridGroupComponent];
 const wrappers = [FormItemWrapperComponent];
 
@@ -34,7 +37,8 @@ const wrappers = [FormItemWrapperComponent];
     ReactiveFormsModule,
     NzToolTipModule,
     NzFormModule,
-    NzInputNumberModule
+    NzInputNumberModule,
+    NzSelectModule
   ]
 })
 export class VisualFormAntdModule {
@@ -45,19 +49,6 @@ export class VisualFormAntdModule {
 
   get platform(): VfPlatform {
 
-
-    const controlDescriptors: VfControlDescriptor[] = [
-      {
-        indicator: indicators.input,
-        template: InputComponent,
-        properties: [properties.id, properties.title, properties.span, properties.description]
-      },
-      {
-        indicator: indicators.inputNumber,
-        template: InputNumberComponent,
-        properties: [properties.id, properties.title, properties.span, properties.description, properties.min, properties.max]
-      }
-    ];
     return {
       id: 'antd',
       controlDescriptors,
@@ -68,49 +59,4 @@ export class VisualFormAntdModule {
   }
 }
 
-export const indicators = {
-  input: {
-    id: 'input',
-    title: '输入框',
-    icon: null
-  },
-  inputNumber: {
-    id: 'inputNumber',
-    title: '数字输入框',
-    icon: null
-  }
-};
 
-export const properties = {
-  id: {
-    id: 'id',
-    title: '唯一标识',
-    template: InputComponent
-  },
-  title: {
-    id: 'title',
-    title: '标题',
-    template: InputComponent
-  },
-  span: {
-    id: 'span',
-    title: '宽度',
-    template: InputNumberComponent,
-    templateProps: { min: 1, max: 24 }
-  },
-  description: {
-    id: 'description',
-    title: '描述',
-    template: InputComponent
-  },
-  min: {
-    id: 'min',
-    title: '最小值',
-    template: InputNumberComponent
-  },
-  max: {
-    id: 'max',
-    title: '最大值',
-    template: InputNumberComponent
-  }
-};

@@ -16,7 +16,7 @@ export type ControlSetting = CommonControlSetting & Pairs;
 export interface MetadataTransformer<TMetadata = Pairs> {
   generate(controlValue: any): TMetadata;
 
-  apply(metadata: TMetadata, control: VfFormControl): void;
+  apply(metadata: TMetadata, control: VfFormControl<any>): void;
 }
 
 

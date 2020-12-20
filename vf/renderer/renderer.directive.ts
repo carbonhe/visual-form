@@ -6,7 +6,7 @@ import { VfRenderer } from './renderer';
   selector: '[vf]'
 })
 export class VfRendererDirective implements OnInit {
-  @Input() vf: VfFormGroup;
+  @Input() vf: VfFormGroup<any>;
 
   constructor(private viewContainer: ViewContainerRef, private renderer: VfRenderer) {
   }

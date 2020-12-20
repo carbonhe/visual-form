@@ -9,5 +9,5 @@ import { FormGroupTemplate, VfFormGroup } from 'visual-form/renderer/types';
   `
 })
 export class DivGroupComponent implements FormGroupTemplate {
-  group: VfFormGroup;
+  group: VfFormGroup<any>;
 }

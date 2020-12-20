@@ -102,14 +102,14 @@ describe('vf-renderer', () => {
     <div [vf]='group'></div> `
 })
 class TestVfRenderComponent {
-  group: VfFormGroup;
+  group: VfFormGroup<any>;
 }
 
 @Component({
   template: `<input class='control-input' />`
 })
 class TestInputControlComponent implements FormControlTemplate {
-  readonly control: VfFormControl;
+  readonly control: VfFormControl<any>;
 }
 
 @Component({
@@ -120,7 +120,7 @@ class TestInputControlComponent implements FormControlTemplate {
   `
 })
 class TestDivGroupComponent implements FormGroupTemplate {
-  readonly group: VfFormGroup;
+  readonly group: VfFormGroup<any>;
 }
 
 

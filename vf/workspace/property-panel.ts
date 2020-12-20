@@ -19,7 +19,7 @@ export class PropertyPanel {
 
     const panels = this.pluginService.getProperties(setting.indicatorId);
 
-    const controls: { [key: string]: VfFormControl } = {};
+    const controls: { [key: string]: VfFormControl<any> } = {};
 
     panels.forEach(panel => {
       const control = new VfFormControl(panel.template, this.pluginService.platform.defaultControlWrapper, {

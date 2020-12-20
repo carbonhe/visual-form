@@ -16,7 +16,7 @@ export class VfContainerComponent implements OnInit {
 
   @Output() renderCompleted = new EventEmitter<FormGroup>();
 
-  vf: VfFormGroup;
+  vf: VfFormGroup<any>;
 
 
   constructor(private pluginService: PluginService) {

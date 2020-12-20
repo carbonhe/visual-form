@@ -14,7 +14,7 @@ interface NgFormExtension<TProps> {
 
 }
 
-export class VfFormControl<TProps = any> extends FormControl implements NgFormExtension<TProps> {
+export class VfFormControl<TProps> extends FormControl implements NgFormExtension<TProps> {
   readonly component: Type<FormControlTemplate<TProps>>;
   readonly wrapper?: Type<FormControlWrapperTemplate<TProps>>;
   readonly props: TProps;
@@ -27,7 +27,7 @@ export class VfFormControl<TProps = any> extends FormControl implements NgFormEx
   }
 }
 
-export class VfFormGroup<TProps = any> extends FormGroup implements NgFormExtension<TProps> {
+export class VfFormGroup<TProps> extends FormGroup implements NgFormExtension<TProps> {
   readonly component: Type<FormGroupTemplate<TProps>>;
   readonly props: TProps;
 
