@@ -1,9 +1,9 @@
-import { AfterViewInit, ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef } from '@angular/core';
+import { ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef } from '@angular/core';
 import { VfFormControl, VfFormGroup } from './types';
 import { AbstractControl } from '@angular/forms';
 
 @Injectable({ providedIn: 'root' })
-export class VfRenderer{
+export class VfRenderer {
   constructor(private componentResolver: ComponentFactoryResolver) {
   }
 
@@ -15,7 +15,7 @@ export class VfRenderer{
       componentRef.instance.control = control;
       if (control.wrapper) {
         const wrapperFactory = this.componentResolver.resolveComponentFactory(control.wrapper);
-        const wrapperComponentRef = viewContainer.createComponent(wrapperFactory, null, null, [[componentRef.location.nativeElement.firstElementChild]]);
+        const wrapperComponentRef = viewContainer.createComponent(wrapperFactory, null, null, [[this.ignoreComponentTag(componentRef)]]);
         wrapperComponentRef.instance.props = control.props;
         return wrapperComponentRef;
       }
@@ -30,7 +30,7 @@ export class VfRenderer{
         }
       }
       const componentRef = viewContainer.createComponent(this.componentResolver.resolveComponentFactory(control.component), null, null, [
-        children.map(e => e.location.nativeElement.firstElementChild)
+        children.map(this.ignoreComponentTag)
       ]);
       componentRef.instance.group = control;
       return componentRef;
@@ -38,7 +38,17 @@ export class VfRenderer{
   }
 
 
-
+  /**
+   * Since Angular always wrap template content with a component tag in DOM,
+   * that may cause the css to not take effect.
+   * So we should unwrap template content to avoid the unexpected effect.
+   *
+   * @param componentRef which component's tag need to be ignored
+   * @private
+   */
+  private ignoreComponentTag(componentRef: ComponentRef<any>) {
+    return componentRef.location.nativeElement.firstElementChild;
+  }
 
 
   private check(control: AbstractControl) {

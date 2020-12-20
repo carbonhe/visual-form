@@ -54,7 +54,7 @@ describe('vf-renderer', () => {
       fixture.detectChanges();
       expect(fixture.debugElement.queryAll(By.css('.group-div')).length).toBe(1);
       expect(fixture.debugElement.queryAll(By.css('.control-input')).length).toBe(1);
-      expect(fixture.debugElement.queryAll(By.css('.group-div .control-input')).length).toBe(1);
+      expect(fixture.debugElement.queryAll(By.css('.group-div>.control-input')).length).toBe(1);
     });
 
     it('multi controls with single group', () => {
@@ -64,7 +64,7 @@ describe('vf-renderer', () => {
       fixture.detectChanges();
       expect(fixture.debugElement.queryAll(By.css('.group-div')).length).toBe(1);
       expect(fixture.debugElement.queryAll(By.css('.control-input')).length).toBe(2);
-      expect(fixture.debugElement.queryAll(By.css('.group-div .control-input')).length).toBe(2);
+      expect(fixture.debugElement.queryAll(By.css('.group-div>.control-input')).length).toBe(2);
     });
 
     it('multi controls with multi groups', () => {
@@ -79,7 +79,7 @@ describe('vf-renderer', () => {
       fixture.detectChanges();
       expect(fixture.debugElement.queryAll(By.css('.group-div')).length).toBe(3);
       expect(fixture.debugElement.queryAll(By.css('.control-input')).length).toBe(4);
-      expect(fixture.debugElement.queryAll(By.css('.group-div .group-div .control-input')).length).toBe(4);
+      expect(fixture.debugElement.queryAll(By.css('.group-div>.group-div>.control-input')).length).toBe(4);
     });
 
     it('with wrapper component', () => {
@@ -90,9 +90,8 @@ describe('vf-renderer', () => {
       component.group = new VfFormGroup(TestDivGroupComponent, { test: control });
       fixture.detectChanges();
       expect(fixture.debugElement.queryAll(By.css('.wrapper-div')).length).toBe(1);
-      expect(fixture.debugElement.queryAll(By.css('.group-div .wrapper-div .control-input')).length).toBe(1);
+      expect(fixture.debugElement.queryAll(By.css('.group-div>.wrapper-div>.control-input')).length).toBe(1);
       const wrapperDebugElement = fixture.debugElement.query(By.directive(TestDivWrapperComponent));
-      console.log(wrapperDebugElement);
       expect(wrapperDebugElement.componentInstance.props).toBe(props);
     });
   });
