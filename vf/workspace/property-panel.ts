@@ -44,10 +44,13 @@ export class PropertyPanel {
     // Avoid patch value with metadata
     const settingCopy = { ...setting };
     delete settingCopy[VF_METADATA];
-    group.patchValue(settingCopy);
 
     this.renderer.render(this.viewContainer, group);
 
+    /**
+     * It is very important to make sure that all internal controls patch value before the group
+     */
+    setTimeout(() => group.patchValue(settingCopy));
   }
 
   clear() {
