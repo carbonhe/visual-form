@@ -34,6 +34,11 @@
                 "glob": "**/*",
                 "input": "./node_modules/visual-form/src/assets/",
                 "output": "/assets/"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/monaco-editor/min/vs",
+                "output": "/assets/vs/"
               }
             ],
             "styles": [

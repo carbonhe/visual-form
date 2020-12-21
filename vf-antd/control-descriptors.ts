@@ -5,6 +5,7 @@ import { DropdownComponent, DropdownProps } from 'visual-form-antd/contorls/drop
 import { VfFormControl } from 'visual-form/renderer/types';
 import { Validators } from '@angular/forms';
 import { TextareaComponent } from 'visual-form-antd/contorls/textarea.component';
+import { CodeEditorProps, ScriptSettingComponent } from './contorls/script-setting.component';
 
 const indicators: { [key: string]: VfIndicator } = {
   input: {
@@ -56,7 +57,7 @@ const properties: { [key: string]: VfProperty } = {
       if (value) {
         /**
          * https://github.com/angular/angular/pull/37263
-         * TODO: Wait the above api to keep the existing validators
+         * TODO: Waiting for the above api to keep the existing validators
          */
         control.setValidators(Validators.required);
       }
@@ -83,13 +84,27 @@ const properties: { [key: string]: VfProperty } = {
     template: InputNumberComponent,
     templateProps: { min: 1 } as InputNumberProps,
   },
+  script: {
+    propertyKey: 'script',
+    title: 'Script',
+    template: ScriptSettingComponent,
+    templateProps: { options: { language: 'javascript' } } as CodeEditorProps,
+    patch(value: string, control: VfFormControl<CodeEditorProps>) {
+      const code = `'use strict';${value}`;
+      try {
+        new Function('$control', code)(control);
+      } catch (error) {
+        console.warn(`script execute failed, please check your code. Cause by: \n${error.stack}`);
+      }
+    },
+  },
 };
 
 export const controlDescriptors: VfControlDescriptor[] = [
   {
     indicator: indicators.input,
     template: InputComponent,
-    properties: [properties.id, properties.title, properties.span, properties.required, properties.description],
+    properties: [properties.id, properties.title, properties.span, properties.required, properties.description, properties.script],
   },
   {
     indicator: indicators.inputNumber,
@@ -102,11 +117,20 @@ export const controlDescriptors: VfControlDescriptor[] = [
       properties.description,
       properties.min,
       properties.max,
+      properties.script,
     ],
   },
   {
     indicator: indicators.textarea,
     template: TextareaComponent,
-    properties: [properties.id, properties.title, properties.span, properties.required, properties.description, properties.rows],
+    properties: [
+      properties.id,
+      properties.title,
+      properties.span,
+      properties.required,
+      properties.description,
+      properties.rows,
+      properties.script,
+    ],
   },
 ];
