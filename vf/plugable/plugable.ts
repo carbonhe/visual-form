@@ -1,6 +1,6 @@
 import { TemplateRef, Type } from '@angular/core';
-import { FormControlTemplate, FormControlWrapperTemplate, FormGroupTemplate } from '../renderer/types';
-import { MetadataTransformer, Pairs } from 'visual-form/workspace/types';
+import { FormControlTemplate, FormControlWrapperTemplate, FormGroupTemplate, VfFormControl } from '../renderer/types';
+import { Pairs } from 'visual-form/workspace/types';
 
 export interface VfPlugin {
   id: string;
@@ -13,7 +13,6 @@ export interface VfPlatform extends VfPlugin {
   defaultControlWrapper?: Type<FormControlWrapperTemplate>;
 }
 
-
 export interface VfIndicator {
   id: string;
   title: string;
@@ -21,8 +20,7 @@ export interface VfIndicator {
 }
 
 export interface VfProperty<T extends FormControlTemplate = any> {
-
-  id: string;
+  propertyKey: string;
 
   title: string;
 
@@ -30,8 +28,7 @@ export interface VfProperty<T extends FormControlTemplate = any> {
 
   templateProps?: Pairs;
 
-  transformer?: MetadataTransformer;
-
+  patch?(value: any, control: VfFormControl<any>): void;
 }
 
 export interface VfControlDescriptor {
@@ -39,8 +36,3 @@ export interface VfControlDescriptor {
   template: Type<FormControlTemplate>;
   properties: VfProperty[];
 }
-
-
-
-
-

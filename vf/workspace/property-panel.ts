@@ -2,19 +2,16 @@ import { Injectable, ViewContainerRef } from '@angular/core';
 import { PluginService } from '../plugable/plugin.service';
 import { VfFormControl, VfFormGroup } from '../renderer/types';
 import { VfRenderer } from '../renderer/renderer';
-import { ControlSetting, VF_METADATA } from './types';
+import { ControlSetting, VF_PATCHES } from './types';
 import { VfProperty } from 'visual-form/plugable/plugable';
 
 @Injectable()
 export class PropertyPanel {
-
   private viewContainer: ViewContainerRef;
 
-  constructor(private pluginService: PluginService, private renderer: VfRenderer) {
-  }
+  constructor(private pluginService: PluginService, private renderer: VfRenderer) {}
 
   createPanel(setting: ControlSetting) {
-
     this.viewContainer.clear();
 
     const properties = this.pluginService.getProperties(setting.indicatorId);
@@ -23,27 +20,26 @@ export class PropertyPanel {
 
     properties.forEach(property => {
       const control = new VfFormControl(property.template, this.pluginService.platform.defaultControlWrapper, {
-        id: property.id,
+        id: property.propertyKey,
         title: property.title,
-        ...(property.templateProps ?? {})
+        ...(property.templateProps ?? {}),
       });
 
-      control.valueChanges.subscribe(v => {
-        setting[property.id] = v;
-        if (property.transformer) {
-          this.saveMetadata(property, setting, v);
+      control.valueChanges.subscribe(value => {
+        setting[property.propertyKey] = value;
+        if (property.patch) {
+          this.addPatch(property, setting);
         }
       });
 
-      controls[property.id] = control;
+      controls[property.propertyKey] = control;
     });
-
 
     const group = new VfFormGroup(this.pluginService.platform.propertyPanelGroup, controls);
 
-    // Avoid patch value with metadata
+    // Avoid patch value with the patches set
     const settingCopy = { ...setting };
-    delete settingCopy[VF_METADATA];
+    delete settingCopy[VF_PATCHES];
 
     this.renderer.render(this.viewContainer, group);
 
@@ -61,12 +57,8 @@ export class PropertyPanel {
     this.viewContainer = viewContainer;
   }
 
-  private saveMetadata(panel: VfProperty, setting: ControlSetting, controlValue: any) {
-
-    setting[VF_METADATA] = setting[VF_METADATA] ?? {};
-
-    setting[VF_METADATA][panel.id] = panel.transformer.generate(controlValue);
-
+  private addPatch(property: VfProperty, setting: ControlSetting) {
+    setting[VF_PATCHES] = setting[VF_PATCHES] ?? new Set<string>();
+    (setting[VF_PATCHES] as Set<string>).add(property.propertyKey);
   }
 }
-

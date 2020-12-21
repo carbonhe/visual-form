@@ -1,7 +1,4 @@
-import { VfFormControl } from 'visual-form/renderer/types';
-
 export type Pairs = { [key: string]: any };
-
 
 export interface CommonControlSetting {
   id: string;
@@ -13,11 +10,4 @@ export interface CommonControlSetting {
 
 export type ControlSetting = CommonControlSetting & Pairs;
 
-export interface MetadataTransformer<TMetadata = Pairs> {
-  generate(controlValue: any): TMetadata;
-
-  apply(metadata: TMetadata, control: VfFormControl<any>): void;
-}
-
-
-export const VF_METADATA = '__METADATA';
+export const VF_PATCHES = '__PATCHES';

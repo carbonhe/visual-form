@@ -3,14 +3,12 @@ import { VfIndicator, VfPlatform, VfPlugin, VfProperty } from './plugable';
 import { FormControlTemplate } from '../renderer/types';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PluginService {
-
   private _platform: VfPlatform;
 
   private plugins: VfPlugin[] = [];
-
 
   usePlatform(platform: VfPlatform) {
     if (this._platform) {
@@ -39,7 +37,6 @@ export class PluginService {
     return this.plugins.flatMap(plugin => plugin.controlDescriptors.map(e => e.indicator));
   }
 
-
   findControl(indicatorId: string): Type<FormControlTemplate> {
     for (const plugin of this.plugins) {
       for (const descriptor of plugin.controlDescriptors) {
@@ -51,17 +48,15 @@ export class PluginService {
     throw Error(`There is no component match indicator: ${indicatorId}`);
   }
 
-
   getProperties(indicatorId: string): VfProperty[] {
-    return this.plugins.flatMap(plugin => plugin.controlDescriptors)
-      .find(descriptor => descriptor.indicator.id === indicatorId)
-      .properties;
+    return this.plugins.flatMap(plugin => plugin.controlDescriptors).find(descriptor => descriptor.indicator.id === indicatorId).properties;
   }
 
   getProperty(propertyId: string): VfProperty {
-    return this.plugins.flatMap(plugin => plugin.controlDescriptors)
+    return this.plugins
+      .flatMap(plugin => plugin.controlDescriptors)
       .flatMap(descriptor => descriptor.properties)
-      .find(property => property.id === propertyId);
+      .find(property => property.propertyKey === propertyId);
   }
 
   private checkPlatform() {
