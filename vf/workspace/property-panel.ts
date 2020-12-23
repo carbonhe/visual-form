@@ -9,7 +9,8 @@ import { VfProperty } from 'visual-form/plugable/plugable';
 export class PropertyPanel {
   private viewContainer: ViewContainerRef;
 
-  constructor(private pluginService: PluginService, private renderer: VfRenderer) {}
+  constructor(private pluginService: PluginService, private renderer: VfRenderer) {
+  }
 
   createPanel(setting: ControlSetting) {
     this.viewContainer.clear();
@@ -20,9 +21,9 @@ export class PropertyPanel {
 
     properties.forEach(property => {
       const control = new VfFormControl(property.template, this.pluginService.platform.defaultWrapperComponent, {
+        ...property.templateProps,
         id: property.propertyKey,
-        title: property.title,
-        ...(property.templateProps ?? {}),
+        title: property.title
       });
 
       control.valueChanges.subscribe(value => {
@@ -35,7 +36,7 @@ export class PropertyPanel {
       controls[property.propertyKey] = control;
     });
 
-    const group = new VfFormGroup(this.pluginService.platform.propertyGroupComponent, controls);
+    const group = new VfFormGroup(this.pluginService.platform.propertyGroup.component, controls, this.pluginService.platform.propertyGroup.props);
 
     // Avoid patch value with the patches set
     const settingCopy = { ...setting };

@@ -8,7 +8,7 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { VfWorkspaceModule } from 'visual-form';
 import { PluginService } from 'visual-form/plugable/plugin.service';
-import { VfPlatform } from 'visual-form/plugable/plugable';
+import { PATCH_CONTRIBUTORS, VfPlatform } from 'visual-form/plugable/plugable';
 import { InputComponent } from './contorls/input.component';
 import { DivGroupComponent } from './groups/div-group.component';
 import { FormItemWrapperComponent } from './wrappers/form-item-wrapper.component';
@@ -23,9 +23,11 @@ import { NzCodeEditorModule } from 'ng-zorro-antd/code-editor';
 import { ScriptSettingComponent } from './contorls/script-setting.component';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { FormGroupComponent, FormGroupProps } from 'visual-form-antd/groups/form-group.component';
+import { SpanPatchContributor } from 'visual-form-antd/patches/patch-contributors';
 
 const controls = [InputComponent, InputNumberComponent, DropdownComponent, TextareaComponent, ScriptSettingComponent];
-const groups = [DivGroupComponent, GridGroupComponent];
+const groups = [DivGroupComponent, GridGroupComponent, FormGroupComponent];
 const wrappers = [FormItemWrapperComponent];
 
 @NgModule({
@@ -46,8 +48,9 @@ const wrappers = [FormItemWrapperComponent];
     NzSelectModule,
     NzCodeEditorModule,
     NzButtonModule,
-    NzIconModule,
+    NzIconModule
   ],
+  providers: [{ provide: PATCH_CONTRIBUTORS, useClass: SpanPatchContributor, multi: true }]
 })
 export class VisualFormAntdModule {
   constructor(pluginService: PluginService) {
@@ -58,9 +61,15 @@ export class VisualFormAntdModule {
     return {
       id: 'antd',
       controlDescriptors,
-      propertyGroupComponent: DivGroupComponent,
-      rootGroupComponent: GridGroupComponent,
-      defaultWrapperComponent: FormItemWrapperComponent,
+      propertyGroup: {
+        component: FormGroupComponent,
+        props: { layout: 'vertical' } as FormGroupProps
+      },
+      rootGroup: {
+        component: GridGroupComponent,
+        props: {}
+      },
+      defaultWrapperComponent: FormItemWrapperComponent
     };
   }
 }

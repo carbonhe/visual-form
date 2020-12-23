@@ -1,24 +1,24 @@
 import { ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef } from '@angular/core';
-import { VfFormControl, VfFormGroup, VfTemplateType } from './types';
+import { VfFormControl, VfFormGroup, VfComponentType } from './types';
 import { AbstractControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 
 @Injectable()
 export class VfRenderer {
-  private _componentRendered$ = new Subject<ComponentRef<VfTemplateType>>();
+  private _componentRendered$ = new Subject<ComponentRef<VfComponentType>>();
 
   componentRendered$ = this._componentRendered$.asObservable();
 
   constructor(private componentResolver: ComponentFactoryResolver) {}
 
-  render(viewContainer: ViewContainerRef, control: AbstractControl): ComponentRef<VfTemplateType> {
+  render(viewContainer: ViewContainerRef, control: AbstractControl): ComponentRef<VfComponentType> {
     let rootComponentRef = this._render(viewContainer, control);
     this._componentRendered$.next(rootComponentRef);
     this._componentRendered$.complete();
     return rootComponentRef;
   }
 
-  private _render(viewContainer: ViewContainerRef, control: AbstractControl): ComponentRef<VfTemplateType> {
+  private _render(viewContainer: ViewContainerRef, control: AbstractControl): ComponentRef<VfComponentType> {
     this.check(control);
     if (control instanceof VfFormControl) {
       const factory = this.componentResolver.resolveComponentFactory(control.component);

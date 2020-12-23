@@ -9,36 +9,45 @@ import {
   Input,
   OnInit,
   Optional,
-  Output,
+  Output
 } from '@angular/core';
 import { ControlSetting, VF_PATCHES } from '../workspace/types';
-import { ControlComponent, VfFormControl, VfFormGroup, VfTemplateType } from './types';
+import { ControlComponent, VfComponentType, VfFormControl, VfFormGroup } from './types';
 import { PluginService } from '../plugable/plugin.service';
 import { FormGroup } from '@angular/forms';
-import { PATCH_CONTEXT_CONTRIBUTORS, PatchContext, PatchContextContributor } from 'visual-form/plugable/plugable';
+import {
+  PATCH_CONTEXT_CONTRIBUTORS,
+  PATCH_CONTRIBUTORS,
+  PatchContext,
+  PatchContextContributor,
+  PatchContributor
+} from 'visual-form/plugable/plugable';
 import { Subject } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'vf-container',
-  template: ` <div [vf]="vf" (onComponentRendered)="onComponentRendered($event)"></div> `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <div [vf]='vf' (onComponentRendered)='onComponentRendered($event)'></div> `,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VfContainerComponent implements OnInit, AfterViewInit {
   @Input() controls: ControlSetting[] = [];
 
   @Output() renderCompleted = new EventEmitter<FormGroup>();
 
-  private componentRendered$ = new Subject<ComponentRef<VfTemplateType>>();
+  private componentRendered$ = new Subject<ComponentRef<VfComponentType>>();
 
   vf: VfFormGroup<any>;
 
   constructor(
     private pluginService: PluginService,
     private injector: Injector,
-    @Inject(PATCH_CONTEXT_CONTRIBUTORS) @Optional() private patchContextContributors: PatchContextContributor[]
-  ) {}
+    @Inject(PATCH_CONTEXT_CONTRIBUTORS) @Optional() private patchContextContributors: PatchContextContributor[],
+    @Inject(PATCH_CONTRIBUTORS) @Optional() private patchContributors: PatchContributor[]
+  ) {
+  }
 
   ngOnInit(): void {
     let contributedContext = {};
@@ -52,26 +61,33 @@ export class VfContainerComponent implements OnInit, AfterViewInit {
       const control = new VfFormControl(
         this.pluginService.findControl(controlSetting.indicatorId),
         this.pluginService.platform.defaultWrapperComponent,
-        controlSetting
+        {
+          ...controlSetting
+        }
       );
 
       const rendered$ = this.componentRendered$.pipe(
         filter(ref => isInstanceOfControlComponent(ref.instance)),
-        map(e => void e)
+        map(_ => undefined)
       );
-      this.applyPatch(controlSetting, {
-        control: control,
-        rendered$: rendered$,
+      const patchContext = {
+        control,
+        rendered$,
         extra: contributedContext,
-        ...this.resolveContextServices(),
-      });
+        ...this.resolveContextServices()
+      };
+      this.applyPatch(controlSetting, patchContext);
+
+      if (this.patchContributors) {
+        this.patchContributors.forEach(contributor => contributor.patch(controlSetting, patchContext));
+      }
       vfControls[controlSetting.id] = control;
     });
 
-    this.vf = new VfFormGroup<any>(this.pluginService.platform.rootGroupComponent, vfControls);
+    this.vf = new VfFormGroup<any>(this.pluginService.platform.rootGroup.component, vfControls, this.pluginService.platform.rootGroup.props);
   }
 
-  onComponentRendered(componentRef: ComponentRef<VfTemplateType>) {
+  onComponentRendered(componentRef: ComponentRef<VfComponentType>) {
     this.componentRendered$.next(componentRef);
   }
 
@@ -81,7 +97,7 @@ export class VfContainerComponent implements OnInit, AfterViewInit {
 
   private resolveContextServices() {
     const httpClient = this.injector.get(HttpClient, mockService(HttpClient));
-    return { httpClient: httpClient };
+    return { httpClient };
   }
 
   private applyPatch(controlSetting: ControlSetting, context: PatchContext) {
@@ -100,10 +116,10 @@ export class VfContainerComponent implements OnInit, AfterViewInit {
 
 function mockService(type: Function) {
   return {
-    errorMessage: `This is a mock object! You don't seem to provide service of [${type.name}], please inject it first.`,
+    errorMessage: `This is a mock object! You don't seem to provide service of [${type.name}], please inject it first.`
   };
 }
 
-function isInstanceOfControlComponent(instance: VfTemplateType): instance is ControlComponent {
+function isInstanceOfControlComponent(instance: VfComponentType): instance is ControlComponent {
   return instance.hasOwnProperty('control') && instance['control'] instanceof VfFormControl;
 }

@@ -1,5 +1,5 @@
 import { ComponentRef, Directive, EventEmitter, Input, OnInit, Output, ViewContainerRef } from '@angular/core';
-import { VfFormGroup, VfTemplateType } from './types';
+import { VfFormGroup, VfComponentType } from './types';
 import { VfRenderer } from './renderer';
 
 @Directive({
@@ -9,7 +9,7 @@ import { VfRenderer } from './renderer';
 export class VfRendererDirective implements OnInit {
   @Input() vf: VfFormGroup<any>;
 
-  @Output() onComponentRendered = new EventEmitter<ComponentRef<VfTemplateType>>();
+  @Output() onComponentRendered = new EventEmitter<ComponentRef<VfComponentType>>();
 
   constructor(private viewContainer: ViewContainerRef, private renderer: VfRenderer) {}
 

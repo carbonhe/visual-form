@@ -55,4 +55,4 @@ export interface GroupComponent<TProps = any> {
   group: VfFormGroup<TProps>;
 }
 
-export type VfTemplateType<TProps = any> = ControlComponent<TProps> | GroupComponent<TProps> | WrapperComponent<TProps>;
+export type VfComponentType<TProps = any> = ControlComponent<TProps> | GroupComponent<TProps> | WrapperComponent<TProps>;
