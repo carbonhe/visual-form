@@ -1,6 +1,8 @@
-import { TemplateRef, Type } from '@angular/core';
-import { FormControlTemplate, FormControlWrapperTemplate, FormGroupTemplate, VfFormControl } from '../renderer/types';
+import { InjectionToken, TemplateRef, Type } from '@angular/core';
+import { ControlComponent, GroupComponent, VfFormControl, WrapperComponent } from '../renderer/types';
 import { Pairs } from 'visual-form/workspace/types';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 export interface VfPlugin {
   id: string;
@@ -8,9 +10,9 @@ export interface VfPlugin {
 }
 
 export interface VfPlatform extends VfPlugin {
-  propertyPanelGroup: Type<FormGroupTemplate>;
-  rootGroup: Type<FormGroupTemplate>;
-  defaultControlWrapper?: Type<FormControlWrapperTemplate>;
+  propertyGroupComponent: Type<GroupComponent>;
+  rootGroupComponent: Type<GroupComponent>;
+  defaultWrapperComponent?: Type<WrapperComponent>;
 }
 
 export interface VfIndicator {
@@ -19,7 +21,7 @@ export interface VfIndicator {
   icon: TemplateRef<any> | Type<any>;
 }
 
-export interface VfProperty<T extends FormControlTemplate = any> {
+export interface VfProperty<T extends ControlComponent = any> {
   propertyKey: string;
 
   title: string;
@@ -28,11 +30,24 @@ export interface VfProperty<T extends FormControlTemplate = any> {
 
   templateProps?: Pairs;
 
-  patch?(value: any, control: VfFormControl<any>): void;
+  patch?(value: any, context: PatchContext): void;
 }
 
 export interface VfControlDescriptor {
   indicator: VfIndicator;
-  template: Type<FormControlTemplate>;
+  template: Type<ControlComponent>;
   properties: VfProperty[];
 }
+
+export interface PatchContext {
+  readonly control: VfFormControl<any>;
+  readonly rendered$: Observable<void>;
+  readonly httpClient: HttpClient;
+  readonly extra: Pairs;
+}
+
+export interface PatchContextContributor {
+  contribute(): Pairs;
+}
+
+export const PATCH_CONTEXT_CONTRIBUTORS = new InjectionToken<PatchContextContributor[]>('PATCH_CONTEXT_CONTRIBUTORS');

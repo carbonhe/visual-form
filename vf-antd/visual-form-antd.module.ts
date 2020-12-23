@@ -58,9 +58,9 @@ export class VisualFormAntdModule {
     return {
       id: 'antd',
       controlDescriptors,
-      propertyPanelGroup: DivGroupComponent,
-      rootGroup: GridGroupComponent,
-      defaultControlWrapper: FormItemWrapperComponent,
+      propertyGroupComponent: DivGroupComponent,
+      rootGroupComponent: GridGroupComponent,
+      defaultWrapperComponent: FormItemWrapperComponent,
     };
   }
 }

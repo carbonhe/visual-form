@@ -1,5 +1,5 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
-import { FormControlTemplate, VfFormControl } from 'visual-form/renderer/types';
+import { ControlComponent, VfFormControl } from 'visual-form/renderer/types';
 import { JoinedEditorOptions } from 'ng-zorro-antd/code-editor';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
@@ -53,7 +53,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
     `,
   ],
 })
-export class ScriptSettingComponent implements FormControlTemplate<CodeEditorProps> {
+export class ScriptSettingComponent implements ControlComponent<CodeEditorProps> {
   @ViewChild('editorTpl') editorContent: TemplateRef<any>;
 
   control: VfFormControl<CodeEditorProps>;

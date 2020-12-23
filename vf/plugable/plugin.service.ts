@@ -1,6 +1,6 @@
 import { Injectable, Type } from '@angular/core';
 import { VfIndicator, VfPlatform, VfPlugin, VfProperty } from './plugable';
-import { FormControlTemplate } from '../renderer/types';
+import { ControlComponent } from '../renderer/types';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +37,7 @@ export class PluginService {
     return this.plugins.flatMap(plugin => plugin.controlDescriptors.map(e => e.indicator));
   }
 
-  findControl(indicatorId: string): Type<FormControlTemplate> {
+  findControl(indicatorId: string): Type<ControlComponent> {
     for (const plugin of this.plugins) {
       for (const descriptor of plugin.controlDescriptors) {
         if (descriptor.indicator.id === indicatorId) {

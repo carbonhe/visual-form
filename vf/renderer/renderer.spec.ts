@@ -1,11 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  FormControlTemplate,
-  FormControlWrapperTemplate,
-  FormGroupTemplate,
-  VfFormControl,
-  VfFormGroup
-} from './types';
+import { ControlComponent, WrapperComponent, GroupComponent, VfFormControl, VfFormGroup } from './types';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { VfRendererModule } from './renderer.module';
 import { By } from '@angular/platform-browser';
@@ -19,7 +13,7 @@ describe('vf-renderer', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [VfRendererModule],
-      declarations: [TestVfRenderComponent, TestInputControlComponent, TestDivGroupComponent, TestDivWrapperComponent]
+      declarations: [TestVfRenderComponent, TestInputControlComponent, TestDivGroupComponent, TestDivWrapperComponent],
     });
     fixture = TestBed.createComponent(TestVfRenderComponent);
     component = fixture.componentInstance;
@@ -83,7 +77,6 @@ describe('vf-renderer', () => {
     });
 
     it('with wrapper component', () => {
-
       const props = { c: 3, p: 0 };
 
       const control = new VfFormControl(TestInputControlComponent, TestDivWrapperComponent, props);
@@ -98,39 +91,37 @@ describe('vf-renderer', () => {
 });
 
 @Component({
-  template: `
-    <div [vf]='group'></div> `
+  template: ` <div [vf]="group"></div> `,
 })
 class TestVfRenderComponent {
   group: VfFormGroup<any>;
 }
 
 @Component({
-  template: `<input class='control-input' />`
+  template: `<input class="control-input" />`,
 })
-class TestInputControlComponent implements FormControlTemplate {
+class TestInputControlComponent implements ControlComponent {
   readonly control: VfFormControl<any>;
 }
 
 @Component({
   template: `
-    <div class='group-div'>
+    <div class="group-div">
       <ng-content></ng-content>
     </div>
-  `
+  `,
 })
-class TestDivGroupComponent implements FormGroupTemplate {
+class TestDivGroupComponent implements GroupComponent {
   readonly group: VfFormGroup<any>;
 }
 
-
 @Component({
   template: `
-    <div class='wrapper-div'>
+    <div class="wrapper-div">
       <ng-content></ng-content>
     </div>
-  `
+  `,
 })
-class TestDivWrapperComponent implements FormControlWrapperTemplate {
+class TestDivWrapperComponent implements WrapperComponent {
   props: any;
 }

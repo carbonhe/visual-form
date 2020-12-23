@@ -1,13 +1,9 @@
 import { Component } from '@angular/core';
-import { FormControlTemplate, VfFormControl } from 'visual-form/renderer/types';
+import { ControlComponent, VfFormControl } from 'visual-form/renderer/types';
 
 @Component({
-  template: `
-    <input nz-input type='text' [formControl]='control' />
-  `
+  template: ` <input nz-input type="text" [formControl]="control" /> `,
 })
-export class InputComponent implements FormControlTemplate {
+export class InputComponent implements ControlComponent {
   readonly control: VfFormControl<any>;
 }
-
-

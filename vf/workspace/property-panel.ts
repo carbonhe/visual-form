@@ -19,7 +19,7 @@ export class PropertyPanel {
     const controls: { [key: string]: VfFormControl<any> } = {};
 
     properties.forEach(property => {
-      const control = new VfFormControl(property.template, this.pluginService.platform.defaultControlWrapper, {
+      const control = new VfFormControl(property.template, this.pluginService.platform.defaultWrapperComponent, {
         id: property.propertyKey,
         title: property.title,
         ...(property.templateProps ?? {}),
@@ -35,7 +35,7 @@ export class PropertyPanel {
       controls[property.propertyKey] = control;
     });
 
-    const group = new VfFormGroup(this.pluginService.platform.propertyPanelGroup, controls);
+    const group = new VfFormGroup(this.pluginService.platform.propertyGroupComponent, controls);
 
     // Avoid patch value with the patches set
     const settingCopy = { ...setting };

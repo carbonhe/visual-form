@@ -1,8 +1,7 @@
 import { InputComponent } from './contorls/input.component';
 import { InputNumberComponent, InputNumberProps } from './contorls/input-number.component';
-import { VfControlDescriptor, VfIndicator, VfProperty } from 'visual-form/plugable/plugable';
+import { PatchContext, VfControlDescriptor, VfIndicator, VfProperty } from 'visual-form/plugable/plugable';
 import { DropdownComponent, DropdownProps } from 'visual-form-antd/contorls/dropdown.component';
-import { VfFormControl } from 'visual-form/renderer/types';
 import { Validators } from '@angular/forms';
 import { TextareaComponent } from 'visual-form-antd/contorls/textarea.component';
 import { CodeEditorProps, ScriptSettingComponent } from './contorls/script-setting.component';
@@ -53,13 +52,13 @@ const properties: { [key: string]: VfProperty } = {
       ],
       defaultValue: false,
     } as DropdownProps,
-    patch(value: boolean, control: VfFormControl<any>): void {
+    patch(value: boolean, context: PatchContext): void {
       if (value) {
         /**
          * https://github.com/angular/angular/pull/37263
          * TODO: Waiting for the above api to keep the existing validators
          */
-        control.setValidators(Validators.required);
+        context.control.setValidators(Validators.required);
       }
     },
   },
@@ -89,12 +88,12 @@ const properties: { [key: string]: VfProperty } = {
     title: 'Script',
     template: ScriptSettingComponent,
     templateProps: { options: { language: 'javascript' } } as CodeEditorProps,
-    patch(value: string, control: VfFormControl<CodeEditorProps>) {
+    patch(value: string, context: PatchContext) {
       const code = `'use strict';${value}`;
       try {
-        new Function('$control', code)(control);
+        new Function('$context', code)(context);
       } catch (error) {
-        console.warn(`script execute failed, please check your code. Cause by: \n${error.stack}`);
+        console.error(`script execute failed, please check your code. Cause by: \n${error.stack}`);
       }
     },
   },
