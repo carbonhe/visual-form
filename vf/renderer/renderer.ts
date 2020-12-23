@@ -1,5 +1,5 @@
 import { ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef } from '@angular/core';
-import { VfFormControl, VfFormGroup, VfComponentType } from './types';
+import { VfComponentType, VfFormControl, VfFormGroup } from './types';
 import { AbstractControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 
@@ -9,7 +9,8 @@ export class VfRenderer {
 
   componentRendered$ = this._componentRendered$.asObservable();
 
-  constructor(private componentResolver: ComponentFactoryResolver) {}
+  constructor(private componentResolver: ComponentFactoryResolver) {
+  }
 
   render(viewContainer: ViewContainerRef, control: AbstractControl): ComponentRef<VfComponentType> {
     let rootComponentRef = this._render(viewContainer, control);
@@ -43,7 +44,7 @@ export class VfRenderer {
         }
       }
       const componentRef = viewContainer.createComponent(this.componentResolver.resolveComponentFactory(control.component), null, null, [
-        children.map(this.ignoreComponentTag),
+        children.map(this.ignoreComponentTag)
       ]);
       componentRef.instance.group = control;
       this._componentRendered$.next(componentRef);
@@ -60,7 +61,8 @@ export class VfRenderer {
    * @private
    */
   private ignoreComponentTag(componentRef: ComponentRef<any>) {
-    return componentRef.location.nativeElement.firstElementChild;
+    // return componentRef.location.nativeElement.firstElementChild;
+    return componentRef.location.nativeElement;
   }
 
   private check(control: AbstractControl) {
@@ -76,5 +78,5 @@ export class VfRenderer {
 
 export const RenderErrors = {
   MISSING_COMPONENT: 'Component must be associated!',
-  TYPE_MISMATCH: 'parameter `control` must be an instance of VfFormControl or VfFormGroup!',
+  TYPE_MISMATCH: 'parameter `control` must be an instance of VfFormControl or VfFormGroup!'
 };

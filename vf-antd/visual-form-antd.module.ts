@@ -25,8 +25,9 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { FormGroupComponent, FormGroupProps } from 'visual-form-antd/groups/form-group.component';
 import { SpanPatchContributor } from 'visual-form-antd/patches/patch-contributors';
+import { OptionSettingComponent } from 'visual-form-antd/contorls/option-setting.component';
 
-const controls = [InputComponent, InputNumberComponent, DropdownComponent, TextareaComponent, ScriptSettingComponent];
+const controls = [InputComponent, InputNumberComponent, DropdownComponent, TextareaComponent, ScriptSettingComponent, OptionSettingComponent];
 const groups = [DivGroupComponent, GridGroupComponent, FormGroupComponent];
 const wrappers = [FormItemWrapperComponent];
 

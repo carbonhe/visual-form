@@ -41,7 +41,7 @@ export class PluginService {
     for (const plugin of this.plugins) {
       for (const descriptor of plugin.controlDescriptors) {
         if (descriptor.indicator.id === indicatorId) {
-          return descriptor.template;
+          return descriptor.component;
         }
       }
     }

@@ -31,16 +31,16 @@ export interface VfProperty<T extends ControlComponent = any> {
 
   title: string;
 
-  template: Type<T>;
+  component: Type<T>;
 
-  templateProps?: Pairs;
+  componentProps?: Pairs;
 
   patch?(value: any, context: PatchContext): void;
 }
 
 export interface VfControlDescriptor {
   indicator: VfIndicator;
-  template: Type<ControlComponent>;
+  component: Type<ControlComponent>;
   properties: VfProperty[];
 }
 

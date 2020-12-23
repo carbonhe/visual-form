@@ -5,52 +5,58 @@ import { DropdownComponent, DropdownProps } from 'visual-form-antd/contorls/drop
 import { Validators } from '@angular/forms';
 import { TextareaComponent } from 'visual-form-antd/contorls/textarea.component';
 import { CodeEditorProps, ScriptSettingComponent } from './contorls/script-setting.component';
+import { OptionSettingComponent, OptionSettingProps } from 'visual-form-antd/contorls/option-setting.component';
 
 const indicators: { [key: string]: VfIndicator } = {
   input: {
     id: 'input',
     title: '输入框',
-    icon: null,
+    icon: null
   },
   inputNumber: {
     id: 'inputNumber',
     title: '数字输入框',
-    icon: null,
+    icon: null
   },
   textarea: {
     id: 'textarea',
     title: '文本域',
-    icon: null,
+    icon: null
   },
+  dropdown: {
+    id: 'dropdown',
+    title: '下拉框',
+    icon: null
+  }
 };
 
 const properties: { [key: string]: VfProperty } = {
   id: {
     propertyKey: 'id',
     title: '唯一标识',
-    template: InputComponent,
+    component: InputComponent
   },
   title: {
     propertyKey: 'title',
     title: '标题',
-    template: InputComponent,
+    component: InputComponent
   },
   span: {
     propertyKey: 'span',
     title: '宽度',
-    template: InputNumberComponent,
-    templateProps: { min: 1, max: 24 } as InputNumberProps,
+    component: InputNumberComponent,
+    componentProps: { min: 1, max: 24 } as InputNumberProps
   },
   required: {
     propertyKey: 'required',
     title: '是否必填',
-    template: DropdownComponent,
-    templateProps: {
+    component: DropdownComponent,
+    componentProps: {
       options: [
         { label: '是', value: true },
-        { label: '否', value: false },
+        { label: '否', value: false }
       ],
-      defaultValue: false,
+      defaultValue: false
     } as DropdownProps,
     patch(value: boolean, context: PatchContext): void {
       if (value) {
@@ -60,34 +66,34 @@ const properties: { [key: string]: VfProperty } = {
          */
         context.control.setValidators(Validators.required);
       }
-    },
+    }
   },
   description: {
     propertyKey: 'description',
     title: '描述',
-    template: InputComponent,
+    component: InputComponent
   },
   min: {
     propertyKey: 'min',
     title: '最小值',
-    template: InputNumberComponent,
+    component: InputNumberComponent
   },
   max: {
     propertyKey: 'max',
     title: '最大值',
-    template: InputNumberComponent,
+    component: InputNumberComponent
   },
   rows: {
     propertyKey: 'rows',
     title: '行数',
-    template: InputNumberComponent,
-    templateProps: { min: 1 } as InputNumberProps,
+    component: InputNumberComponent,
+    componentProps: { min: 1 } as InputNumberProps
   },
   script: {
     propertyKey: 'script',
     title: 'Script',
-    template: ScriptSettingComponent,
-    templateProps: { options: { language: 'javascript' } } as CodeEditorProps,
+    component: ScriptSettingComponent,
+    componentProps: { options: { language: 'javascript' } } as CodeEditorProps,
     patch(value: string, context: PatchContext) {
       const code = `'use strict';${value}`;
       try {
@@ -95,19 +101,27 @@ const properties: { [key: string]: VfProperty } = {
       } catch (error) {
         console.error(`script execute failed, please check your code. Cause by: \n${error.stack}`);
       }
-    },
+    }
   },
+  dropdown: {
+    propertyKey: 'options',
+    title: '选项设置',
+    component: OptionSettingComponent,
+    componentProps: {
+      defaultOptions: [{ label: '选项一', value: 1 }, { label: '选项二', value: 2 }, { label: '选项三', value: 3 }]
+    } as OptionSettingProps
+  }
 };
 
 export const controlDescriptors: VfControlDescriptor[] = [
   {
     indicator: indicators.input,
-    template: InputComponent,
-    properties: [properties.id, properties.title, properties.span, properties.required, properties.description, properties.script],
+    component: InputComponent,
+    properties: [properties.id, properties.title, properties.span, properties.required, properties.description, properties.script]
   },
   {
     indicator: indicators.inputNumber,
-    template: InputNumberComponent,
+    component: InputNumberComponent,
     properties: [
       properties.id,
       properties.title,
@@ -116,12 +130,12 @@ export const controlDescriptors: VfControlDescriptor[] = [
       properties.description,
       properties.min,
       properties.max,
-      properties.script,
-    ],
+      properties.script
+    ]
   },
   {
     indicator: indicators.textarea,
-    template: TextareaComponent,
+    component: TextareaComponent,
     properties: [
       properties.id,
       properties.title,
@@ -129,7 +143,20 @@ export const controlDescriptors: VfControlDescriptor[] = [
       properties.required,
       properties.description,
       properties.rows,
-      properties.script,
-    ],
+      properties.script
+    ]
   },
+  {
+    indicator: indicators.dropdown,
+    component: DropdownComponent,
+    properties: [
+      properties.id,
+      properties.title,
+      properties.span,
+      properties.required,
+      properties.description,
+      properties.dropdown,
+      properties.script
+    ]
+  }
 ];

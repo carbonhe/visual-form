@@ -20,8 +20,8 @@ export class PropertyPanel {
     const controls: { [key: string]: VfFormControl<any> } = {};
 
     properties.forEach(property => {
-      const control = new VfFormControl(property.template, this.pluginService.platform.defaultWrapperComponent, {
-        ...property.templateProps,
+      const control = new VfFormControl(property.component, this.pluginService.platform.defaultWrapperComponent, {
+        ...property.componentProps,
         id: property.propertyKey,
         title: property.title
       });
