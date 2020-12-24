@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { WrapperComponent } from 'visual-form/renderer/types';
 import { CommonControlSetting } from 'visual-form/workspace/types';
 import { NzColDirective } from 'ng-zorro-antd/grid';
@@ -16,7 +16,7 @@ import { NzColDirective } from 'ng-zorro-antd/grid';
   `,
 })
 export class FormItemWrapperComponent extends NzColDirective implements WrapperComponent<FormItemProps>, OnInit {
-  @Input() props: FormItemProps;
+  props: FormItemProps;
 
   ngOnInit() {
     super.ngOnInit();
