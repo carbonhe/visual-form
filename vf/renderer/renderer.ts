@@ -2,6 +2,7 @@ import { ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef } 
 import { VfComponentType, VfFormControl, VfFormGroup } from './types';
 import { AbstractControl } from '@angular/forms';
 import { Subject } from 'rxjs';
+import { coerceElement } from '@angular/cdk/coercion';
 
 @Injectable()
 export class VfRenderer {
@@ -9,8 +10,7 @@ export class VfRenderer {
 
   componentRendered$ = this._componentRendered$.asObservable();
 
-  constructor(private componentResolver: ComponentFactoryResolver) {
-  }
+  constructor(private componentResolver: ComponentFactoryResolver) {}
 
   render(viewContainer: ViewContainerRef, control: AbstractControl): ComponentRef<VfComponentType> {
     let rootComponentRef = this._render(viewContainer, control);
@@ -28,7 +28,7 @@ export class VfRenderer {
       this._componentRendered$.next(componentRef);
       if (control.wrapper) {
         const wrapperFactory = this.componentResolver.resolveComponentFactory(control.wrapper);
-        const wrapperComponentRef = viewContainer.createComponent(wrapperFactory, null, null, [[this.ignoreComponentTag(componentRef)]]);
+        const wrapperComponentRef = viewContainer.createComponent(wrapperFactory, null, null, [[coerceElement(componentRef.location)]]);
         wrapperComponentRef.instance.props = control.props;
         this._componentRendered$.next(wrapperComponentRef);
         return wrapperComponentRef;
@@ -40,29 +40,16 @@ export class VfRenderer {
 
       for (const controlName in controls) {
         if (controls.hasOwnProperty(controlName)) {
-          children.push(this.render(viewContainer, controls[controlName] as VfFormControl<any> | VfFormGroup<any>));
+          children.push(this._render(viewContainer, controls[controlName] as VfFormControl<any> | VfFormGroup<any>));
         }
       }
       const componentRef = viewContainer.createComponent(this.componentResolver.resolveComponentFactory(control.component), null, null, [
-        children.map(this.ignoreComponentTag)
+        children.map(e => coerceElement(e.location)),
       ]);
       componentRef.instance.group = control;
       this._componentRendered$.next(componentRef);
       return componentRef;
     }
-  }
-
-  /**
-   * Since Angular always wrap template content with a component tag in DOM,
-   * that may cause the css to not take effect.
-   * So we should unwrap template content to avoid the unexpected effect.
-   *
-   * @param componentRef which component's tag need to be ignored
-   * @private
-   */
-  private ignoreComponentTag(componentRef: ComponentRef<any>) {
-    // return componentRef.location.nativeElement.firstElementChild;
-    return componentRef.location.nativeElement;
   }
 
   private check(control: AbstractControl) {
@@ -78,5 +65,5 @@ export class VfRenderer {
 
 export const RenderErrors = {
   MISSING_COMPONENT: 'Component must be associated!',
-  TYPE_MISMATCH: 'parameter `control` must be an instance of VfFormControl or VfFormGroup!'
+  TYPE_MISMATCH: 'parameter `control` must be an instance of VfFormControl or VfFormGroup!',
 };

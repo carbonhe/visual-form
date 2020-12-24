@@ -26,8 +26,16 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { FormGroupComponent, FormGroupProps } from 'visual-form-antd/groups/form-group.component';
 import { SpanPatchContributor } from 'visual-form-antd/patches/patch-contributors';
 import { OptionSettingComponent } from 'visual-form-antd/contorls/option-setting.component';
+import { NzRowDirective } from 'ng-zorro-antd/grid';
 
-const controls = [InputComponent, InputNumberComponent, DropdownComponent, TextareaComponent, ScriptSettingComponent, OptionSettingComponent];
+const controls = [
+  InputComponent,
+  InputNumberComponent,
+  DropdownComponent,
+  TextareaComponent,
+  ScriptSettingComponent,
+  OptionSettingComponent,
+];
 const groups = [DivGroupComponent, GridGroupComponent, FormGroupComponent];
 const wrappers = [FormItemWrapperComponent];
 
@@ -49,9 +57,9 @@ const wrappers = [FormItemWrapperComponent];
     NzSelectModule,
     NzCodeEditorModule,
     NzButtonModule,
-    NzIconModule
+    NzIconModule,
   ],
-  providers: [{ provide: PATCH_CONTRIBUTORS, useClass: SpanPatchContributor, multi: true }]
+  providers: [{ provide: PATCH_CONTRIBUTORS, useClass: SpanPatchContributor, multi: true }],
 })
 export class VisualFormAntdModule {
   constructor(pluginService: PluginService) {
@@ -64,13 +72,13 @@ export class VisualFormAntdModule {
       controlDescriptors,
       propertyGroup: {
         component: FormGroupComponent,
-        props: { layout: 'vertical' } as FormGroupProps
+        props: { layout: 'vertical' } as FormGroupProps,
       },
       rootGroup: {
         component: GridGroupComponent,
-        props: {}
+        props: {},
       },
-      defaultWrapperComponent: FormItemWrapperComponent
+      defaultWrapperComponent: FormItemWrapperComponent,
     };
   }
 }

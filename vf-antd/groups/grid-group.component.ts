@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
 import { GroupComponent, VfFormGroup } from 'visual-form/renderer/types';
+import { NzRowDirective } from 'ng-zorro-antd/grid';
 
 @Component({
-  template: `
-    <nz-row>
-      <ng-content></ng-content>
-    </nz-row>
-  `,
+  template: ` <ng-content></ng-content>`,
 })
-export class GridGroupComponent implements GroupComponent {
+export class GridGroupComponent extends NzRowDirective implements GroupComponent {
   group: VfFormGroup<any>;
 }

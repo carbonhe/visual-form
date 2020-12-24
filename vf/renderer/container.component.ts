@@ -9,7 +9,7 @@ import {
   Input,
   OnInit,
   Optional,
-  Output
+  Output,
 } from '@angular/core';
 import { ControlSetting, VF_PATCHES } from '../workspace/types';
 import { ControlComponent, VfComponentType, VfFormControl, VfFormGroup } from './types';
@@ -20,7 +20,7 @@ import {
   PATCH_CONTRIBUTORS,
   PatchContext,
   PatchContextContributor,
-  PatchContributor
+  PatchContributor,
 } from 'visual-form/plugable/plugable';
 import { Subject } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -28,9 +28,8 @@ import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'vf-container',
-  template: `
-    <div [vf]='vf' (onComponentRendered)='onComponentRendered($event)'></div> `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  template: ` <div [vf]="vf" (onComponentRendered)="onComponentRendered($event)"></div> `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VfContainerComponent implements OnInit, AfterViewInit {
   @Input() controls: ControlSetting[] = [];
@@ -46,8 +45,7 @@ export class VfContainerComponent implements OnInit, AfterViewInit {
     private injector: Injector,
     @Inject(PATCH_CONTEXT_CONTRIBUTORS) @Optional() private patchContextContributors: PatchContextContributor[],
     @Inject(PATCH_CONTRIBUTORS) @Optional() private patchContributors: PatchContributor[]
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     let contributedContext = {};
@@ -62,7 +60,7 @@ export class VfContainerComponent implements OnInit, AfterViewInit {
         this.pluginService.findControl(controlSetting.indicatorId),
         this.pluginService.platform.defaultWrapperComponent,
         {
-          ...controlSetting
+          ...controlSetting,
         }
       );
 
@@ -74,7 +72,7 @@ export class VfContainerComponent implements OnInit, AfterViewInit {
         control,
         rendered$,
         extra: contributedContext,
-        ...this.resolveContextServices()
+        ...this.resolveContextServices(),
       };
       this.applyPatch(controlSetting, patchContext);
 
@@ -84,7 +82,11 @@ export class VfContainerComponent implements OnInit, AfterViewInit {
       vfControls[controlSetting.id] = control;
     });
 
-    this.vf = new VfFormGroup<any>(this.pluginService.platform.rootGroup.component, vfControls, this.pluginService.platform.rootGroup.props);
+    this.vf = new VfFormGroup<any>(
+      this.pluginService.platform.rootGroup.component,
+      vfControls,
+      this.pluginService.platform.rootGroup.props
+    );
   }
 
   onComponentRendered(componentRef: ComponentRef<VfComponentType>) {
@@ -96,7 +98,7 @@ export class VfContainerComponent implements OnInit, AfterViewInit {
   }
 
   private resolveContextServices() {
-    const httpClient = this.injector.get(HttpClient, mockService(HttpClient));
+    const httpClient = this.injector.get(HttpClient);
     return { httpClient };
   }
 
@@ -112,12 +114,6 @@ export class VfContainerComponent implements OnInit, AfterViewInit {
       });
     }
   }
-}
-
-function mockService(type: Function) {
-  return {
-    errorMessage: `This is a mock object! You don't seem to provide service of [${type.name}], please inject it first.`
-  };
 }
 
 function isInstanceOfControlComponent(instance: VfComponentType): instance is ControlComponent {
