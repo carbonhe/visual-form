@@ -50,6 +50,10 @@ export class PropertyPanelComponent implements OnInit, OnChanges {
         }
       });
 
+      if (property.defaultValue !== undefined) {
+        control.patchValue(property.defaultValue);
+      }
+
       controls[property.propertyKey] = control;
     });
 

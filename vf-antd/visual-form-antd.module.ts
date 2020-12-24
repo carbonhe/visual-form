@@ -27,6 +27,7 @@ import { FormGroupComponent, FormGroupProps } from 'visual-form-antd/groups/form
 import { SpanPatchContributor } from 'visual-form-antd/patches/patch-contributors';
 import { OptionSettingControl } from './controls/option-setting.control';
 import { OptionSettingComponent } from 'visual-form-antd/contorl-components/option-setting.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 const controlComponents = [
   InputComponent,
@@ -59,6 +60,7 @@ const wrappers = [FormItemWrapperComponent];
     NzCodeEditorModule,
     NzButtonModule,
     NzIconModule,
+    DragDropModule,
   ],
   providers: [{ provide: PATCH_CONTRIBUTORS, useClass: SpanPatchContributor, multi: true }],
 })

@@ -7,7 +7,6 @@ import { TextareaComponent } from 'visual-form-antd/contorl-components/textarea.
 import { CodeEditorProps, ScriptSettingComponent } from './contorl-components/script-setting.component';
 import { OptionSettingComponent } from 'visual-form-antd/contorl-components/option-setting.component';
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select';
-import { KEYS } from 'visual-form-antd/types';
 
 const indicators: { [key: string]: VfIndicator } = {
   input: {
@@ -109,7 +108,7 @@ const properties: { [key: string]: VfProperty } = {
     propertyKey: 'options',
     title: '选项设置',
     component: OptionSettingComponent,
-    [KEYS.defaultValue]: [
+    defaultValue: [
       { label: '选项一', value: 1 },
       { label: '选项二', value: 2 },
       { label: '选项三', value: 3 },

@@ -35,6 +35,8 @@ export interface VfProperty<T extends ControlComponent = any> extends Pairs {
 
   componentProps?: Pairs;
 
+  defaultValue?: any;
+
   patch?(value: any, context: PatchContext): void;
 }
 
