@@ -28,6 +28,8 @@ import { SpanPatchContributor } from 'visual-form-antd/patches/patch-contributor
 import { OptionSettingControl } from './controls/option-setting.control';
 import { OptionSettingComponent } from 'visual-form-antd/contorl-components/option-setting.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { IconDefinition } from '@ant-design/icons-angular';
+import { DeleteTwoTone, DragOutline } from '@ant-design/icons-angular/icons';
 
 const controlComponents = [
   InputComponent,
@@ -35,11 +37,14 @@ const controlComponents = [
   SelectComponent,
   TextareaComponent,
   ScriptSettingComponent,
-  OptionSettingComponent,
+  OptionSettingComponent
 ];
 const controls = [OptionSettingControl];
 const groups = [DivGroupComponent, GridGroupComponent, FormGroupComponent];
 const wrappers = [FormItemWrapperComponent];
+
+
+const icons: IconDefinition[] = [DeleteTwoTone, DragOutline];
 
 @NgModule({
   declarations: [...controls, ...controlComponents, ...groups, ...wrappers],
@@ -59,10 +64,10 @@ const wrappers = [FormItemWrapperComponent];
     NzSelectModule,
     NzCodeEditorModule,
     NzButtonModule,
-    NzIconModule,
-    DragDropModule,
+    NzIconModule.forRoot(icons),
+    DragDropModule
   ],
-  providers: [{ provide: PATCH_CONTRIBUTORS, useClass: SpanPatchContributor, multi: true }],
+  providers: [{ provide: PATCH_CONTRIBUTORS, useClass: SpanPatchContributor, multi: true }]
 })
 export class VisualFormAntdModule {
   constructor(pluginService: PluginService) {
@@ -75,13 +80,13 @@ export class VisualFormAntdModule {
       controlDescriptors,
       propertyGroup: {
         component: FormGroupComponent,
-        props: { layout: 'vertical' } as FormGroupProps,
+        props: { layout: 'vertical' } as FormGroupProps
       },
       rootGroup: {
         component: GridGroupComponent,
-        props: {},
+        props: {}
       },
-      defaultWrapperComponent: FormItemWrapperComponent,
+      defaultWrapperComponent: FormItemWrapperComponent
     };
   }
 }

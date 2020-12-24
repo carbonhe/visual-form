@@ -74,7 +74,6 @@ export class PropertyPanelComponent implements OnInit, OnChanges {
       });
 
       control.valueChanges.subscribe(value => {
-        console.log(control.pristine);
         setting[property.propertyKey] = value;
         if (property.patch) {
           this.addPatch(property, setting);
@@ -82,7 +81,7 @@ export class PropertyPanelComponent implements OnInit, OnChanges {
       });
 
       if (control.pristine && property.defaultValue !== undefined) {
-        control.patchValue(property.defaultValue);
+        control.patchValue(this.clone(property.defaultValue));
       }
 
       controls[property.propertyKey] = control;
@@ -108,6 +107,13 @@ export class PropertyPanelComponent implements OnInit, OnChanges {
     setTimeout(() => group.patchValue(settingCopy));
 
     return componentRef;
+  }
+
+  private clone(stuff: any): any {
+    if (typeof stuff === 'object' || typeof stuff === 'function') {
+      return JSON.parse(JSON.stringify(stuff));
+    }
+    return stuff;
   }
 
   private addPatch(property: VfProperty, setting: ControlSetting) {
