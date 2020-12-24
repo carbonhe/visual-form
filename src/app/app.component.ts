@@ -1,34 +1,31 @@
 import { Component } from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { ControlSetting } from 'visual-form/workspace/types';
-import { VfContainerComponent } from 'visual-form/renderer/container.component';
+import { RendererComponent } from 'visual-form/renderer/renderer.component';
 import { FormGroup } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.less']
+  styleUrls: ['./app.component.less'],
 })
 export class AppComponent {
-
   private form: FormGroup;
 
-  constructor(private modal: NzModalService, private notification: NzNotificationService) {
-  }
+  constructor(private modal: NzModalService, private notification: NzNotificationService) {}
 
   controls: ControlSetting[] = [];
-
 
   preview() {
     const modal = this.modal.create({
       nzTitle: '表单',
-      nzContent: VfContainerComponent,
+      nzContent: RendererComponent,
       nzComponentParams: {
-        controls: this.controls
+        controls: this.controls,
       },
       nzOnOk: () => this.logFormValue(),
-      nzOkDisabled: true
+      nzOkDisabled: true,
     });
     modal.componentInstance.renderCompleted.subscribe(form => {
       this.form = form;

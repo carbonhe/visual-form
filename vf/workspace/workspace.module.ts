@@ -10,6 +10,7 @@ import { SortablejsModule } from 'ngx-sortablejs';
 import { PortalModule } from '@angular/cdk/portal';
 import { DeleteIconComponent } from 'visual-form/workspace/icons/delete.component';
 import { HandleIconComponent } from 'visual-form/workspace/icons/handle.component';
+import { VfRendererModule } from "visual-form/renderer/renderer.module";
 
 @NgModule({
   declarations: [
@@ -19,11 +20,9 @@ import { HandleIconComponent } from 'visual-form/workspace/icons/handle.componen
     ComponentPanelComponent,
     LayoutPanelComponent,
     PropertyPanelComponent,
-    IndicatorComponent
-
+    IndicatorComponent,
   ],
   exports: [WorkspaceComponent],
-  imports: [CommonModule, SortablejsModule, PortalModule]
+  imports: [CommonModule, SortablejsModule, PortalModule, VfRendererModule],
 })
-export class VfWorkspaceModule {
-}
+export class VfWorkspaceModule {}

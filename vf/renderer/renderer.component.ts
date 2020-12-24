@@ -4,37 +4,35 @@ import {
   Component,
   ComponentRef,
   EventEmitter,
-  Inject,
   Injector,
   Input,
   OnInit,
-  Optional,
   Output,
+  ViewContainerRef,
 } from '@angular/core';
 import { ControlSetting, VF_PATCHES } from '../workspace/types';
 import { ControlComponent, VfComponentType, VfFormControl, VfFormGroup } from './types';
 import { PluginService } from '../plugable/plugin.service';
 import { FormGroup } from '@angular/forms';
-import {
-  PATCH_CONTEXT_CONTRIBUTORS,
-  PATCH_CONTRIBUTORS,
-  PatchContext,
-  PatchContextContributor,
-  PatchContributor,
-} from 'visual-form/plugable/plugable';
-import { Subject } from 'rxjs';
+import { PatchContext } from 'visual-form/plugable/plugable';
 import { filter, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { VfRenderer } from 'visual-form/renderer/renderer';
+import { Subject } from 'rxjs';
+import { Patcher } from 'visual-form/renderer/patcher';
 
 @Component({
-  selector: 'vf-container',
-  template: ` <div [vf]="vf" (onComponentRendered)="onComponentRendered($event)"></div> `,
+  selector: 'vf',
+  template: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [VfRenderer],
 })
-export class VfContainerComponent implements OnInit, AfterViewInit {
+export class RendererComponent implements OnInit, AfterViewInit {
   @Input() controls: ControlSetting[] = [];
 
   @Output() renderCompleted = new EventEmitter<FormGroup>();
+
+  @Output() componentRendered = new EventEmitter<VfComponentType>();
 
   private componentRendered$ = new Subject<ComponentRef<VfComponentType>>();
 
@@ -43,17 +41,18 @@ export class VfContainerComponent implements OnInit, AfterViewInit {
   constructor(
     private pluginService: PluginService,
     private injector: Injector,
-    @Inject(PATCH_CONTEXT_CONTRIBUTORS) @Optional() private patchContextContributors: PatchContextContributor[],
-    @Inject(PATCH_CONTRIBUTORS) @Optional() private patchContributors: PatchContributor[]
+    private renderer: VfRenderer,
+    private viewContainer: ViewContainerRef,
+    private patcher: Patcher
   ) {}
 
   ngOnInit(): void {
-    let contributedContext = {};
-    if (this.patchContextContributors) {
-      this.patchContextContributors.forEach(contributor => {
-        contributedContext = { ...contributedContext, ...contributor.contribute() };
-      });
-    }
+    this.viewContainer.clear();
+    this.renderer.componentRendered$.subscribe(r => this.componentRendered$.next(r));
+    this.render();
+  }
+
+  private render() {
     const vfControls = {};
     this.controls.forEach(controlSetting => {
       const control = new VfFormControl(
@@ -71,14 +70,13 @@ export class VfContainerComponent implements OnInit, AfterViewInit {
       const patchContext = {
         control,
         rendered$,
-        extra: contributedContext,
+        extra: this.patcher.extraPatchContext,
         ...this.resolveContextServices(),
       };
       this.applyPatch(controlSetting, patchContext);
 
-      if (this.patchContributors) {
-        this.patchContributors.forEach(contributor => contributor.patch(controlSetting, patchContext));
-      }
+      this.patcher.applyExtraPatches(controlSetting, patchContext);
+
       vfControls[controlSetting.id] = control;
     });
 
@@ -87,10 +85,7 @@ export class VfContainerComponent implements OnInit, AfterViewInit {
       vfControls,
       this.pluginService.platform.rootGroup.props
     );
-  }
-
-  onComponentRendered(componentRef: ComponentRef<VfComponentType>) {
-    this.componentRendered$.next(componentRef);
+    this.renderer.render(this.viewContainer, this.vf);
   }
 
   ngAfterViewInit(): void {

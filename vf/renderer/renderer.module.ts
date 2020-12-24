@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
-import { VfRendererDirective } from './renderer.directive';
-import { VfContainerComponent } from 'visual-form/renderer/container.component';
+import { RendererComponent } from 'visual-form/renderer/renderer.component';
 
 @NgModule({
-  declarations: [VfRendererDirective, VfContainerComponent],
-  exports: [VfRendererDirective, VfContainerComponent]
+  declarations: [RendererComponent],
+  exports: [RendererComponent],
 })
-export class VfRendererModule {
-}
+export class VfRendererModule {}

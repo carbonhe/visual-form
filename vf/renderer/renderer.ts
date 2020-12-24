@@ -13,6 +13,9 @@ export class VfRenderer {
   constructor(private componentResolver: ComponentFactoryResolver) {}
 
   render(viewContainer: ViewContainerRef, control: AbstractControl): ComponentRef<VfComponentType> {
+    if (!control) {
+      return;
+    }
     let rootComponentRef = this._render(viewContainer, control);
     this._componentRendered$.next(rootComponentRef);
     this._componentRendered$.complete();

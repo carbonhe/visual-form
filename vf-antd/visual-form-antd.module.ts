@@ -9,26 +9,26 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { VfWorkspaceModule } from 'visual-form';
 import { PluginService } from 'visual-form/plugable/plugin.service';
 import { PATCH_CONTRIBUTORS, VfPlatform } from 'visual-form/plugable/plugable';
-import { InputComponent } from './contorls/input.component';
+import { InputComponent } from './contorl-components/input.component';
 import { DivGroupComponent } from './groups/div-group.component';
 import { FormItemWrapperComponent } from './wrappers/form-item-wrapper.component';
 import { GridGroupComponent } from './groups/grid-group.component';
-import { InputNumberComponent } from './contorls/input-number.component';
+import { InputNumberComponent } from './contorl-components/input-number.component';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
-import { DropdownComponent } from 'visual-form-antd/contorls/dropdown.component';
+import { DropdownComponent } from 'visual-form-antd/contorl-components/dropdown.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { controlDescriptors } from './control-descriptors';
-import { TextareaComponent } from './contorls/textarea.component';
+import { TextareaComponent } from './contorl-components/textarea.component';
 import { NzCodeEditorModule } from 'ng-zorro-antd/code-editor';
-import { ScriptSettingComponent } from './contorls/script-setting.component';
+import { ScriptSettingComponent } from './contorl-components/script-setting.component';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { FormGroupComponent, FormGroupProps } from 'visual-form-antd/groups/form-group.component';
 import { SpanPatchContributor } from 'visual-form-antd/patches/patch-contributors';
-import { OptionSettingComponent } from 'visual-form-antd/contorls/option-setting.component';
-import { NzRowDirective } from 'ng-zorro-antd/grid';
+import { OptionSettingControl } from './controls/option-setting.control';
+import { OptionSettingComponent } from 'visual-form-antd/contorl-components/option-setting.component';
 
-const controls = [
+const controlComponents = [
   InputComponent,
   InputNumberComponent,
   DropdownComponent,
@@ -36,11 +36,12 @@ const controls = [
   ScriptSettingComponent,
   OptionSettingComponent,
 ];
+const controls = [OptionSettingControl];
 const groups = [DivGroupComponent, GridGroupComponent, FormGroupComponent];
 const wrappers = [FormItemWrapperComponent];
 
 @NgModule({
-  declarations: [...controls, ...groups, ...wrappers],
+  declarations: [...controls, ...controlComponents, ...groups, ...wrappers],
   exports: [VfWorkspaceModule],
   imports: [
     VfWorkspaceModule,

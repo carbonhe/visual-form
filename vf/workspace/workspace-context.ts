@@ -1,9 +1,7 @@
 import { ChangeDetectorRef, Injectable, NgZone } from '@angular/core';
 import { Options, SortableEvent } from 'sortablejs';
 import { Subject } from 'rxjs';
-import { PropertyPanel } from './property-panel';
 import { ControlSetting } from './types';
-
 
 @Injectable()
 export class WorkspaceContext {
@@ -15,15 +13,11 @@ export class WorkspaceContext {
 
   controls: ControlSetting[] = [];
 
-
   private readonly groupName: string;
 
-  constructor(private cdr: ChangeDetectorRef,
-              private ngZone: NgZone,
-              private propertyPanel: PropertyPanel) {
+  constructor(private cdr: ChangeDetectorRef, private ngZone: NgZone) {
     this.groupName = `sort_group_${WorkspaceContext.globalId++}`;
   }
-
 
   get selected(): ControlSetting {
     return this._selected;
@@ -31,11 +25,6 @@ export class WorkspaceContext {
 
   set selected(setting: ControlSetting) {
     this._selected = setting;
-
-
-    if (setting) {
-      this.propertyPanel.createPanel(setting);
-    }
 
     this.cdr.detectChanges();
   }
@@ -49,11 +38,9 @@ export class WorkspaceContext {
       this.selected = this.controls[event.newIndex];
       this.selectedChanges.next(this.controls);
     }
-
   };
 
   delete(control: ControlSetting) {
-    this.propertyPanel.clear();
     this.controls = this.controls.filter(e => e !== control);
     this.selected = this.controls.length > 0 ? this.controls[this.controls.length - 1] : null;
     this.selectedChanges.next(this.controls);

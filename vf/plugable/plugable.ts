@@ -26,7 +26,7 @@ export interface VfIndicator {
   icon: TemplateRef<any> | Type<any>;
 }
 
-export interface VfProperty<T extends ControlComponent = any> {
+export interface VfProperty<T extends ControlComponent = any> extends Pairs {
   propertyKey: string;
 
   title: string;
