@@ -15,7 +15,7 @@ import { FormItemWrapperComponent } from './wrappers/form-item-wrapper.component
 import { GridGroupComponent } from './groups/grid-group.component';
 import { InputNumberComponent } from './contorl-components/input-number.component';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
-import { DropdownComponent } from 'visual-form-antd/contorl-components/dropdown.component';
+import { SelectComponent } from 'visual-form-antd/contorl-components/select.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { controlDescriptors } from './control-descriptors';
 import { TextareaComponent } from './contorl-components/textarea.component';
@@ -32,7 +32,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 const controlComponents = [
   InputComponent,
   InputNumberComponent,
-  DropdownComponent,
+  SelectComponent,
   TextareaComponent,
   ScriptSettingComponent,
   OptionSettingComponent,

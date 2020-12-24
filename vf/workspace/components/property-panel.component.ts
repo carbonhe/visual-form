@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewContainerRef } from '@angular/core';
+import { Component, ComponentRef, Input, OnChanges, OnInit, SimpleChanges, ViewContainerRef } from '@angular/core';
 import { ControlSetting, VF_PATCHES } from 'visual-form/workspace/types';
 import { VfFormControl, VfFormGroup } from 'visual-form/renderer/types';
 import { PluginService } from 'visual-form/plugable/plugin.service';
@@ -9,14 +9,20 @@ import { VfRenderer } from 'visual-form/renderer/renderer';
   selector: 'vf-property-panel',
   template: ``,
   styleUrls: [`./styles.less`],
-  providers: [VfRenderer],
+  providers: [VfRenderer]
 })
 export class PropertyPanelComponent implements OnInit, OnChanges {
   @Input() control: ControlSetting;
 
-  constructor(private viewContainer: ViewContainerRef, private pluginService: PluginService, private renderer: VfRenderer) {}
+  private viewMap = new Map<string, ComponentRef<any>>();
 
-  ngOnInit(): void {}
+  private current: [string, ComponentRef<any>];
+
+  constructor(private viewContainer: ViewContainerRef, private pluginService: PluginService, private renderer: VfRenderer) {
+  }
+
+  ngOnInit(): void {
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     const { firstChange, previousValue, currentValue } = changes.control;
@@ -24,14 +30,38 @@ export class PropertyPanelComponent implements OnInit, OnChanges {
       return;
     }
     if (!currentValue) {
-      this.viewContainer.clear();
-      return;
+      if (this.current) {
+        this.viewMap.delete(this.current[0]);
+        this.current[1].destroy();
+        this.current = null;
+      }
+    } else {
+      if (this.current) {
+        this.hide(this.current[1]);
+      }
+      let ref = this.viewMap.get(currentValue.id);
+      if (ref) {
+        this.show(ref);
+        this.current = [currentValue.id, ref];
+      } else {
+        ref = this.rerender(currentValue);
+        this.viewMap.set(currentValue.id, ref);
+        this.current = [currentValue.id, ref];
+      }
     }
-    this.rerender(currentValue);
+
+
   }
 
-  private rerender(setting: ControlSetting) {
-    this.viewContainer.clear();
+  private hide(ref: ComponentRef<any>) {
+    (ref.location.nativeElement as HTMLElement).style.cssText = 'display:none';
+  }
+
+  private show(ref: ComponentRef<any>) {
+    (ref.location.nativeElement as HTMLElement).style.cssText = 'display:unset';
+  }
+
+  private rerender(setting: ControlSetting): ComponentRef<any> {
     const properties = this.pluginService.getProperties(setting.indicatorId);
 
     const controls: { [key: string]: VfFormControl<any> } = {};
@@ -40,17 +70,18 @@ export class PropertyPanelComponent implements OnInit, OnChanges {
       const control = new VfFormControl(property.component, this.pluginService.platform.defaultWrapperComponent, {
         ...property.componentProps,
         id: property.propertyKey,
-        title: property.title,
+        title: property.title
       });
 
       control.valueChanges.subscribe(value => {
+        console.log(control.pristine);
         setting[property.propertyKey] = value;
         if (property.patch) {
           this.addPatch(property, setting);
         }
       });
 
-      if (property.defaultValue !== undefined) {
+      if (control.pristine && property.defaultValue !== undefined) {
         control.patchValue(property.defaultValue);
       }
 
@@ -67,7 +98,7 @@ export class PropertyPanelComponent implements OnInit, OnChanges {
     const settingCopy = { ...setting };
     delete settingCopy[VF_PATCHES];
 
-    this.renderer.render(this.viewContainer, group);
+    const componentRef = this.renderer.render(this.viewContainer, group);
     // const factory = this.componentResolver.resolveComponentFactory(VfContainerComponent);
     // this.viewContainer.createComponent(factory).instance.vf = group;
 
@@ -75,6 +106,8 @@ export class PropertyPanelComponent implements OnInit, OnChanges {
      * It is very important to make sure that all internal controls patch value before the group
      */
     setTimeout(() => group.patchValue(settingCopy));
+
+    return componentRef;
   }
 
   private addPatch(property: VfProperty, setting: ControlSetting) {
