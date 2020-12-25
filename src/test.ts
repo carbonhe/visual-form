@@ -22,8 +22,5 @@ const context = require.context('./', true, /\.spec\.ts$/);
 // And load the modules.
 context.keys().map(context);
 
-const vfContext = require.context('../vf', true, /\.spec\.ts$/);
-vfContext.keys().map(vfContext);
-
-const vfAntdContext = require.context('../vf-antd', true, /\.spec\.ts$/);
-vfAntdContext.keys().map(vfAntdContext);
+const libContext = require.context('../lib', true, /\.spec\.ts$/);
+libContext.keys().map(libContext);

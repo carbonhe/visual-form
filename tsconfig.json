@@ -14,16 +14,10 @@
       "path": "./tsconfig.spec.json"
     },
     {
-      "path": "./vf/tsconfig.lib.json"
+      "path": "./lib/tsconfig.lib.json"
     },
     {
-      "path": "./vf/tsconfig.spec.json"
-    },
-    {
-      "path": "./vf-antd/tsconfig.lib.json"
-    },
-    {
-      "path": "./vf-antd/tsconfig.spec.json"
+      "path": "./lib/tsconfig.spec.json"
     },
     {
       "path": "./tsconfig.server.json"

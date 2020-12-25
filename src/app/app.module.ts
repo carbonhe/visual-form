@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { VisualFormAntdModule } from 'visual-form-antd';
+import { VisualFormAntdModule } from 'visual-form';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -16,9 +16,13 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { IconDefinition } from '@ant-design/icons-angular';
+import { DeleteTwoTone, DragOutline } from '@ant-design/icons-angular/icons';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 registerLocaleData(en);
 
+const icons: IconDefinition[] = [DeleteTwoTone, DragOutline];
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,14 +34,14 @@ registerLocaleData(en);
     HttpClientModule,
     BrowserAnimationsModule,
     NzInputModule,
+    NzIconModule.forRoot(icons),
     NzSwitchModule,
     NzLayoutModule,
     NzButtonModule,
     NzModalModule,
-    NzNotificationModule
+    NzNotificationModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule {
-}
+export class AppModule {}

@@ -186,78 +186,38 @@
         }
       }
     },
-    "vf": {
+    "visual-form-lib": {
       "projectType": "library",
       "root": "",
-      "sourceRoot": "vf",
+      "sourceRoot": "lib",
       "prefix": "vf",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "vf/tsconfig.lib.json",
-            "project": "vf/ng-package.json"
+            "tsConfig": "lib/tsconfig.lib.json",
+            "project": "lib/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "vf/tsconfig.lib.prod.json"
+              "tsConfig": "lib/tsconfig.lib.prod.json"
             }
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "vf/test.ts",
-            "tsConfig": "vf/tsconfig.spec.json",
-            "karmaConfig": "vf/karma.conf.js"
+            "main": "lib/test.ts",
+            "tsConfig": "lib/tsconfig.spec.json",
+            "karmaConfig": "lib/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "vf/tsconfig.lib.json",
-              "vf/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
-    "vf-antd": {
-      "projectType": "library",
-      "root": "",
-      "sourceRoot": "vf-antd/src",
-      "prefix": "vf",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "tsConfig": "vf-antd/tsconfig.lib.json",
-            "project": "vf-antd/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "vf-antd/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "vf-antd/test.ts",
-            "tsConfig": "vf-antd/tsconfig.spec.json",
-            "karmaConfig": "vf-antd/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "vf-antd/tsconfig.lib.json",
-              "vf-antd/tsconfig.spec.json"
+              "lib/tsconfig.lib.json",
+              "lib/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

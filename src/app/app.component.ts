@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { ControlSetting } from 'visual-form/workspace/types';
-import { RendererComponent } from 'visual-form/renderer/renderer.component';
+import { ControlSetting } from 'visual-form/core/workspace/types';
+import { RendererComponent } from 'visual-form';
 import { FormGroup } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 

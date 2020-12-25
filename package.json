@@ -5,16 +5,15 @@
     "ng": "ng",
     "start": " ng serve --port 8080",
     "build": "ng build --prod",
-    "build:vf": "ng build vf --prod",
-    "build:vf-antd": "ng build vf-antd --prod",
-    "build:lib": "yarn run build:vf && yarn run build:vf-antd",
+    "build:lib": "ng build visual-form-lib --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "dev:ssr": "ng run visual-form-app:serve-ssr",
     "serve:ssr": "node dist/visual-form-app/server/main.js",
     "build:ssr": "ng build --prod && ng run visual-form-app:server:production",
-    "prerender": "ng run visual-form-app:prerender"
+    "prerender": "ng run visual-form-app:prerender",
+    "analyze": "webpack-bundle-analyzer dist/visual-form-app/browser/stats.json"
   },
   "private": true,
   "dependencies": {
@@ -65,6 +64,7 @@
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "~3.9.5"
+    "typescript": "~3.9.5",
+    "webpack-bundle-analyzer": "^4.3.0"
   }
 }

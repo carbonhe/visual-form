@@ -4,7 +4,7 @@
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": false,
-    "declaration": false,
+    "declaration": true,
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
@@ -14,20 +14,6 @@
     "lib": [
       "ESNext",
       "dom"
-    ],
-    "paths": {
-      "visual-form": [
-        "vf"
-      ],
-      "visual-form/*": [
-        "vf/*"
-      ],
-      "visual-form-antd": [
-        "vf-antd"
-      ],
-      "visual-form-antd/*": [
-        "vf-antd/*"
-      ]
-    }
+    ]
   }
 }
