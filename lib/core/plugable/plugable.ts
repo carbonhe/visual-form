@@ -23,7 +23,7 @@ export interface ComponentWithProps<TComponent extends ControlComponent<TProps> 
 export interface VfIndicator {
   id: string;
   title: string;
-  icon: TemplateRef<any> | Type<any>;
+  icon: TemplateRef<any>;
 }
 
 export interface VfProperty<T extends ControlComponent = any> extends Pairs {

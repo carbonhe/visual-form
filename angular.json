@@ -22,10 +22,7 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "allowedCommonJsDependencies": [
-              "@ant-design/colors",
-              "tinycolor2"
-            ],
+            "allowedCommonJsDependencies": ["@ant-design/colors", "tinycolor2"],
             "aot": true,
             "assets": [
               "src/favicon.ico",
@@ -41,9 +38,7 @@
                 "output": "/assets/vs/"
               }
             ],
-            "styles": [
-              "src/styles.less"
-            ],
+            "styles": ["src/styles.less"],
             "scripts": []
           },
           "configurations": {
@@ -101,28 +96,16 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.less"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.less"],
             "scripts": []
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json",
-              "tsconfig.server.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "tsConfig": ["tsconfig.app.json", "tsconfig.spec.json", "e2e/tsconfig.json", "tsconfig.server.json"],
+            "exclude": ["**/node_modules/**"]
           }
         },
         "e2e": {
@@ -176,9 +159,7 @@
           "options": {
             "browserTarget": "visual-form-app:build:production",
             "serverTarget": "visual-form-app:server:production",
-            "routes": [
-              "/"
-            ]
+            "routes": ["/"]
           },
           "configurations": {
             "production": {}
@@ -215,13 +196,8 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "lib/tsconfig.lib.json",
-              "lib/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "tsConfig": ["lib/tsconfig.lib.json", "lib/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**"]
           }
         }
       }

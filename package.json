@@ -6,6 +6,7 @@
     "start": " ng serve --port 8080",
     "build": "ng build --prod",
     "build:lib": "ng build visual-form-lib --prod",
+    "build:lib:watch": "ng build visual-form-lib --watch",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -13,7 +14,20 @@
     "serve:ssr": "node dist/visual-form-app/server/main.js",
     "build:ssr": "ng build --prod && ng run visual-form-app:server:production",
     "prerender": "ng run visual-form-app:prerender",
+    "prettier:write": "prettier --write --ignore-unknown .",
     "analyze": "webpack-bundle-analyzer dist/visual-form-app/browser/stats.json"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "**/*": [
+      "prettier --write --ignore-unknown ",
+      "git add"
+    ]
   },
   "private": true,
   "dependencies": {
@@ -31,7 +45,7 @@
     "express": "^4.15.2",
     "monaco-editor": "^0.21.2",
     "ng-zorro-antd": "^11.0.0",
-    "ngx-sortablejs": "^10.0.0",
+    "ngx-sortablejs": "^11.1.0",
     "rxjs": "~6.5.5",
     "sortablejs": "^1.12.0",
     "tslib": "^2.0.0",
@@ -43,6 +57,8 @@
     "@angular/cli": "~11.0.5",
     "@angular/compiler-cli": "~11.0.5",
     "@ant-design/icons-angular": "^11.0.1",
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-angular": "^11.0.0",
     "@nguniversal/builders": "^10.0.2",
     "@types/express": "^4.17.0",
     "@types/jasmine": "~3.5.0",
@@ -51,6 +67,7 @@
     "@types/sortablejs": "^1.10.6",
     "codelyzer": "^6.0.0",
     "domino": "^2.1.6",
+    "husky": "^4.3.6",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~5.1.1",
@@ -58,6 +75,7 @@
     "karma-coverage-istanbul-reporter": "~3.0.2",
     "karma-jasmine": "~3.3.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "lint-staged": "^10.5.3",
     "ng-packagr": "^11.0.3",
     "prettier": "^2.1.1",
     "protractor": "~7.0.0",

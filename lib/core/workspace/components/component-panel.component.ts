@@ -8,17 +8,16 @@ import { VfIndicator } from '../../plugable/plugable';
   selector: 'vf-component-panel',
   template: `
     <div
-      class='indicators-container'
-      [sortablejs]='indicators'
-      [sortablejsOptions]='sortableOptions'
-      [sortablejsCloneFunction]='cloneFunction'
+      class="indicators-container"
+      [sortablejs]="indicators"
+      [sortablejsOptions]="sortableOptions"
+      [sortablejsCloneFunction]="cloneFunction"
     >
-      <div class='indicator-wrapper' [ngStyle]='{ width: width }'
-           *ngFor='let indicator of indicators'>
-        <vf-indicator [indicator]='indicator'></vf-indicator>
+      <div class="indicator-wrapper" [ngStyle]="{ width: width }" *ngFor="let indicator of indicators">
+        <vf-indicator [indicator]="indicator"></vf-indicator>
       </div>
     </div>
-  `
+  `,
 })
 export class ComponentPanelComponent implements OnInit {
   sortableOptions: Options;
@@ -30,9 +29,7 @@ export class ComponentPanelComponent implements OnInit {
     return this.pluginService.indicators;
   }
 
-  constructor(private dcs: WorkspaceContext,
-              private pluginService: PluginService) {
-
+  constructor(private dcs: WorkspaceContext, private pluginService: PluginService) {
     this.sortableOptions = { ...dcs.sharedOptions, ...{ animation: 150, sort: false, onEnd: this.dcs.drop } };
     Object.assign(this.sortableOptions.group, { pull: 'clone', put: false });
   }
@@ -47,5 +44,3 @@ export class ComponentPanelComponent implements OnInit {
     return { id, span: 24, title: indicator.title, indicatorId: indicator.id };
   }
 }
-
-

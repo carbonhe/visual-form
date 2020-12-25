@@ -9,17 +9,13 @@ import { VfIndicator } from '../../plugable/plugable';
       <ng-template [ngTemplateOutlet]="indicator.icon"></ng-template>
       <span>{{ indicator.title }}</span>
     </div>
-  `
+  `,
 })
 export class IndicatorComponent implements OnInit {
   @Input()
   indicator: VfIndicator;
 
-  constructor() {
-  }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 }
-
-

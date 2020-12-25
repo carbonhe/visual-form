@@ -4,9 +4,5 @@
   "lib": {
     "entryFile": "index.ts"
   },
-  "whitelistedNonPeerDependencies": [
-    "@angular/cdk",
-    "ngx-sortablejs",
-    "sortablejs"
-  ]
+  "whitelistedNonPeerDependencies": ["@angular/cdk", "ngx-sortablejs", "sortablejs"]
 }

@@ -71,7 +71,6 @@ export class OptionSettingControl implements ControlValueAccessor {
   private onTouch: OnTouchedType;
 
   drop(event: CdkDragDrop<NzSelectOptionInterface[]>) {
-    console.log(event);
     moveItemInArray(this.options, event.previousIndex, event.currentIndex);
   }
 
