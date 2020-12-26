@@ -7,6 +7,7 @@ import { TextareaComponent } from './contorl-components/textarea.component';
 import { CodeEditorProps, ScriptSettingComponent } from './contorl-components/script-setting.component';
 import { OptionSettingComponent } from './contorl-components/option-setting.component';
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select';
+import { DateComponent } from './contorl-components/date.component';
 
 const indicators: { [key: string]: VfIndicator } = {
   input: {
@@ -27,6 +28,11 @@ const indicators: { [key: string]: VfIndicator } = {
   select: {
     id: 'select',
     title: '下拉框',
+    icon: null,
+  },
+  date: {
+    id: 'date',
+    title: '日期选择',
     icon: null,
   },
 };
@@ -57,6 +63,7 @@ const properties: { [key: string]: VfProperty } = {
         { label: '是', value: true },
         { label: '否', value: false },
       ],
+      selectMode: 'default',
     } as SelectProps,
     defaultValue: false,
     patch(value: boolean, context: PatchContext): void {
@@ -128,6 +135,36 @@ const properties: { [key: string]: VfProperty } = {
     } as SelectProps,
     defaultValue: 'default',
   },
+  range: {
+    propertyKey: 'range',
+    title: '是否区间',
+    component: SelectComponent,
+    componentProps: {
+      options: [
+        { label: '是', value: true },
+        { label: '否', value: false },
+      ],
+      selectMode: 'default',
+    } as SelectProps,
+    defaultValue: false,
+  },
+  dateMode: {
+    propertyKey: 'dateMode',
+    title: '日期模式',
+    component: SelectComponent,
+    componentProps: {
+      options: [
+        { label: '时分', value: 'time' },
+        { label: '日期', value: 'date' },
+        { label: '周', value: 'week' },
+        { label: '月份', value: 'month' },
+        { label: '年份', value: 'year' },
+        { label: '十年', value: 'decade' },
+      ],
+      selectMode: 'default',
+    } as SelectProps,
+    defaultValue: 'date',
+  },
 };
 
 export const controlDescriptors: VfControlDescriptor[] = [
@@ -174,6 +211,20 @@ export const controlDescriptors: VfControlDescriptor[] = [
       properties.description,
       properties.selectMode,
       properties.options,
+      properties.script,
+    ],
+  },
+  {
+    indicator: indicators.date,
+    component: DateComponent,
+    properties: [
+      properties.id,
+      properties.title,
+      properties.span,
+      properties.required,
+      properties.description,
+      properties.range,
+      properties.dateMode,
       properties.script,
     ],
   },

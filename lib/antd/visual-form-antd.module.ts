@@ -28,6 +28,8 @@ import { VfRendererModule, VfWorkspaceModule } from '../core';
 import { PATCH_CONTRIBUTORS, VfPlatform } from '../core/plugable/plugable';
 import { PluginService } from '../core/plugable/plugin.service';
 import { SpanPatchContributor } from './patches/patch-contributors';
+import { DateComponent } from './contorl-components/date.component';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 const controlComponents = [
   InputComponent,
@@ -36,6 +38,7 @@ const controlComponents = [
   TextareaComponent,
   ScriptSettingComponent,
   OptionSettingComponent,
+  DateComponent,
 ];
 const controls = [OptionSettingControl];
 const groups = [DivGroupComponent, GridGroupComponent, FormGroupComponent];
@@ -60,6 +63,7 @@ const wrappers = [FormItemWrapperComponent];
     NzSelectModule,
     NzCodeEditorModule,
     NzButtonModule,
+    NzDatePickerModule,
     NzIconModule,
     DragDropModule,
   ],
