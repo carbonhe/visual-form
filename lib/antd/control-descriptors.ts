@@ -8,6 +8,7 @@ import { CodeEditorProps, ScriptSettingComponent } from './contorl-components/sc
 import { OptionSettingComponent } from './contorl-components/option-setting.component';
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select';
 import { DateComponent } from './contorl-components/date.component';
+import { RadioComponent } from './contorl-components/radio.component';
 
 const indicators: { [key: string]: VfIndicator } = {
   input: {
@@ -33,6 +34,11 @@ const indicators: { [key: string]: VfIndicator } = {
   date: {
     id: 'date',
     title: '日期选择',
+    icon: null,
+  },
+  radio: {
+    id: 'radio',
+    title: '单选框',
     icon: null,
   },
 };
@@ -225,6 +231,19 @@ export const controlDescriptors: VfControlDescriptor[] = [
       properties.description,
       properties.range,
       properties.dateMode,
+      properties.script,
+    ],
+  },
+  {
+    indicator: indicators.radio,
+    component: RadioComponent,
+    properties: [
+      properties.id,
+      properties.title,
+      properties.span,
+      properties.required,
+      properties.description,
+      properties.options,
       properties.script,
     ],
   },

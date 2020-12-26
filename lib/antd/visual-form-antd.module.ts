@@ -30,6 +30,8 @@ import { PluginService } from '../core/plugable/plugin.service';
 import { SpanPatchContributor } from './patches/patch-contributors';
 import { DateComponent } from './contorl-components/date.component';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { RadioComponent } from './contorl-components/radio.component';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
 
 const controlComponents = [
   InputComponent,
@@ -39,6 +41,7 @@ const controlComponents = [
   ScriptSettingComponent,
   OptionSettingComponent,
   DateComponent,
+  RadioComponent,
 ];
 const controls = [OptionSettingControl];
 const groups = [DivGroupComponent, GridGroupComponent, FormGroupComponent];
@@ -64,6 +67,7 @@ const wrappers = [FormItemWrapperComponent];
     NzCodeEditorModule,
     NzButtonModule,
     NzDatePickerModule,
+    NzRadioModule,
     NzIconModule,
     DragDropModule,
   ],
