@@ -46,7 +46,7 @@ const properties: { [key: string]: VfProperty } = {
     propertyKey: 'span',
     title: '宽度',
     component: InputNumberComponent,
-    componentProps: { min: 1, max: 24 } as InputNumberProps,
+    componentProps: { min: 8, max: 24 } as InputNumberProps,
   },
   required: {
     propertyKey: 'required',
