@@ -32,6 +32,9 @@ import { DateComponent } from './contorl-components/date.component';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { RadioComponent } from './contorl-components/radio.component';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { CheckboxComponent } from './contorl-components/checkbox.component';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { CheckboxControl } from './controls/checkbox.control';
 
 const controlComponents = [
   InputComponent,
@@ -42,8 +45,9 @@ const controlComponents = [
   OptionSettingComponent,
   DateComponent,
   RadioComponent,
+  CheckboxComponent,
 ];
-const controls = [OptionSettingControl];
+const controls = [OptionSettingControl, CheckboxControl];
 const groups = [DivGroupComponent, GridGroupComponent, FormGroupComponent];
 const wrappers = [FormItemWrapperComponent];
 
@@ -68,6 +72,7 @@ const wrappers = [FormItemWrapperComponent];
     NzButtonModule,
     NzDatePickerModule,
     NzRadioModule,
+    NzCheckboxModule,
     NzIconModule,
     DragDropModule,
   ],

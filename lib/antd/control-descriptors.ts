@@ -9,6 +9,7 @@ import { OptionSettingComponent } from './contorl-components/option-setting.comp
 import { NzSelectOptionInterface } from 'ng-zorro-antd/select';
 import { DateComponent } from './contorl-components/date.component';
 import { RadioComponent } from './contorl-components/radio.component';
+import { CheckboxComponent } from './contorl-components/checkbox.component';
 
 const indicators: { [key: string]: VfIndicator } = {
   input: {
@@ -39,6 +40,11 @@ const indicators: { [key: string]: VfIndicator } = {
   radio: {
     id: 'radio',
     title: '单选框',
+    icon: null,
+  },
+  checkbox: {
+    id: 'checkbox',
+    title: '多选框',
     icon: null,
   },
 };
@@ -237,6 +243,19 @@ export const controlDescriptors: VfControlDescriptor[] = [
   {
     indicator: indicators.radio,
     component: RadioComponent,
+    properties: [
+      properties.id,
+      properties.title,
+      properties.span,
+      properties.required,
+      properties.description,
+      properties.options,
+      properties.script,
+    ],
+  },
+  {
+    indicator: indicators.checkbox,
+    component: CheckboxComponent,
     properties: [
       properties.id,
       properties.title,
