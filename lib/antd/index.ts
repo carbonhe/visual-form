@@ -18,3 +18,5 @@ export * from './groups/form-group.component';
 export * from './groups/grid-group.component';
 
 export * from './wrappers/form-item-wrapper.component';
+
+export * from './indicator.component';
