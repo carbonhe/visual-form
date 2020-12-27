@@ -1,5 +1,14 @@
 import { Component, ViewContainerRef } from '@angular/core';
-import { ControlComponent, GroupComponent, VfFormControl, VfFormGroup, WrapperComponent } from './types';
+import {
+  ControlComponent,
+  GroupComponent,
+  isInstanceOfControlComponent,
+  isInstanceOfGroupComponent,
+  isInstanceOfWrapperComponent,
+  VfFormControl,
+  VfFormGroup,
+  WrapperComponent,
+} from './types';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { VfRendererModule } from './renderer.module';
 import { By } from '@angular/platform-browser';
@@ -64,6 +73,52 @@ describe('vf-renderer', () => {
       expect(fixture.debugElement.queryAll(By.css('.group-div .wrapper-div .control-input')).length).toBe(1);
       const wrapperDebugElement = fixture.debugElement.query(By.directive(TestDivWrapperComponent));
       expect(wrapperDebugElement.componentInstance.props).toBe(props);
+    });
+  });
+
+  describe('should emit event', () => {
+    it('with correct count', () => {
+      const control = new VfFormControl(TestInputControlComponent);
+      const componentRenderedNext = jasmine.createSpy();
+      const componentRenderedComplete = jasmine.createSpy();
+      component.renderer.componentRendered$.subscribe({
+        next(value) {
+          componentRenderedNext(value);
+        },
+        complete() {
+          componentRenderedComplete();
+        },
+      });
+      component.render(new VfFormGroup(TestDivGroupComponent, { test: control }));
+      expect(componentRenderedNext).toHaveBeenCalledTimes(2);
+      expect(componentRenderedComplete).toHaveBeenCalledTimes(1);
+      expect(componentRenderedNext).toHaveBeenCalledBefore(componentRenderedComplete);
+    });
+    it('with correct props', () => {
+      const controlProps = { control: 'controlProps' };
+      const groupProps = { group: 'groupProps' };
+      let receivedControlProps;
+      let receivedGroupProps;
+      let receivedWrapperProps;
+      const control = new VfFormControl(TestInputControlComponent, TestDivWrapperComponent, controlProps);
+      component.renderer.componentRendered$.subscribe(r => {
+        if (isInstanceOfControlComponent(r.instance)) {
+          receivedControlProps = r.instance.control.props;
+        }
+
+        if (isInstanceOfGroupComponent(r.instance)) {
+          receivedGroupProps = r.instance.group.props;
+        }
+
+        if (isInstanceOfWrapperComponent(r.instance)) {
+          receivedWrapperProps = r.instance.props;
+        }
+      });
+      component.render(new VfFormGroup(TestDivGroupComponent, { test: control }, groupProps));
+      fixture.detectChanges();
+      expect(receivedControlProps).toBe(controlProps);
+      expect(receivedGroupProps).toBe(groupProps);
+      expect(receivedWrapperProps).toBe(controlProps);
     });
   });
 });

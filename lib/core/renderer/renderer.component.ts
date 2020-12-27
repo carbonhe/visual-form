@@ -11,7 +11,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { ControlSetting, VF_PATCHES } from '../workspace/types';
-import { ControlComponent, VfComponentType, VfFormControl, VfFormGroup } from './types';
+import { isInstanceOfControlComponent, VfComponentType, VfFormControl, VfFormGroup } from './types';
 import { PluginService } from '../plugable/plugin.service';
 import { FormGroup } from '@angular/forms';
 import { filter, map } from 'rxjs/operators';
@@ -109,8 +109,4 @@ export class RendererComponent implements OnInit, AfterViewInit {
       });
     }
   }
-}
-
-function isInstanceOfControlComponent(instance: VfComponentType): instance is ControlComponent {
-  return instance.hasOwnProperty('control') && instance['control'] instanceof VfFormControl;
 }

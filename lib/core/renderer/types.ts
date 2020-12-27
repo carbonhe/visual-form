@@ -56,3 +56,15 @@ export interface GroupComponent<TProps = any> {
 }
 
 export type VfComponentType<TProps = any> = ControlComponent<TProps> | GroupComponent<TProps> | WrapperComponent<TProps>;
+
+export function isInstanceOfControlComponent(instance: VfComponentType): instance is ControlComponent {
+  return instance.hasOwnProperty('control') && instance['control'] instanceof VfFormControl;
+}
+
+export function isInstanceOfGroupComponent(instance: VfComponentType): instance is GroupComponent {
+  return instance.hasOwnProperty('group') && instance['group'] instanceof VfFormGroup;
+}
+
+export function isInstanceOfWrapperComponent(instance: VfComponentType): instance is WrapperComponent {
+  return instance.hasOwnProperty('props');
+}

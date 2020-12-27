@@ -16,8 +16,7 @@ export class VfRenderer {
     if (!control) {
       return;
     }
-    let rootComponentRef = this._render(viewContainer, control);
-    this._componentRendered$.next(rootComponentRef);
+    const rootComponentRef = this._render(viewContainer, control);
     this._componentRendered$.complete();
     return rootComponentRef;
   }
