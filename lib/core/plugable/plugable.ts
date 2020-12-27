@@ -1,4 +1,4 @@
-import { InjectionToken, TemplateRef, Type } from '@angular/core';
+import { InjectionToken, Type } from '@angular/core';
 import { ControlComponent, GroupComponent, VfFormControl, WrapperComponent } from '../renderer/types';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -12,6 +12,7 @@ export interface VfPlugin {
 export interface VfPlatform extends VfPlugin {
   propertyGroup: ComponentWithProps<GroupComponent, any>;
   rootGroup: ComponentWithProps<GroupComponent, any>;
+  indicatorComponent: Type<IndicatorComponent>;
   defaultWrapperComponent?: Type<WrapperComponent>;
 }
 
@@ -23,7 +24,6 @@ export interface ComponentWithProps<TComponent extends ControlComponent<TProps> 
 export interface VfIndicator {
   id: string;
   title: string;
-  icon: TemplateRef<any>;
 }
 
 export interface VfProperty<T extends ControlComponent = any> extends Pairs {
@@ -38,6 +38,10 @@ export interface VfProperty<T extends ControlComponent = any> extends Pairs {
   defaultValue?: any;
 
   patch?(value: any, context: PatchContext): void;
+}
+
+export interface IndicatorComponent {
+  indicator: VfIndicator;
 }
 
 export interface VfControlDescriptor {

@@ -17,12 +17,32 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { IconDefinition } from '@ant-design/icons-angular';
-import { DeleteTwoTone, DragOutline } from '@ant-design/icons-angular/icons';
+import {
+  CalendarOutline,
+  CheckCircleOutline,
+  CheckSquareOutline,
+  DeleteTwoTone,
+  DragOutline,
+  EditOutline,
+  FieldNumberOutline,
+  FormOutline,
+  UnorderedListOutline,
+} from '@ant-design/icons-angular/icons';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
 registerLocaleData(zh);
 
-const icons: IconDefinition[] = [DeleteTwoTone, DragOutline];
+const icons: IconDefinition[] = [
+  DeleteTwoTone,
+  DragOutline,
+  EditOutline,
+  FieldNumberOutline,
+  FormOutline,
+  UnorderedListOutline,
+  CalendarOutline,
+  CheckCircleOutline,
+  CheckSquareOutline,
+];
 
 @NgModule({
   declarations: [AppComponent],

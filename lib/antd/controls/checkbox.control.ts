@@ -46,7 +46,6 @@ export class CheckboxControl implements ControlValueAccessor {
   }
 
   emitChange(checked: any[]) {
-    console.log(checked);
     this.checked = checked;
     this.onChange(this.checked);
   }

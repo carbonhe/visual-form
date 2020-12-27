@@ -35,6 +35,7 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { CheckboxComponent } from './contorl-components/checkbox.component';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { CheckboxControl } from './controls/checkbox.control';
+import { AntdIndicatorComponent } from './indicator.component';
 
 const controlComponents = [
   InputComponent,
@@ -52,7 +53,7 @@ const groups = [DivGroupComponent, GridGroupComponent, FormGroupComponent];
 const wrappers = [FormItemWrapperComponent];
 
 @NgModule({
-  declarations: [...controls, ...controlComponents, ...groups, ...wrappers],
+  declarations: [AntdIndicatorComponent, ...controls, ...controlComponents, ...groups, ...wrappers],
   exports: [VfWorkspaceModule, VfRendererModule],
   imports: [
     VfWorkspaceModule,
@@ -95,6 +96,7 @@ export class VisualFormAntdModule {
         component: GridGroupComponent,
         props: {},
       },
+      indicatorComponent: AntdIndicatorComponent,
       defaultWrapperComponent: FormItemWrapperComponent,
     };
   }

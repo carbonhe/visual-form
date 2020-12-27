@@ -1,6 +1,6 @@
 import { InputComponent } from './contorl-components/input.component';
 import { InputNumberComponent, InputNumberProps } from './contorl-components/input-number.component';
-import { PatchContext, VfControlDescriptor, VfIndicator, VfProperty } from '../core/plugable/plugable';
+import { PatchContext, VfControlDescriptor, VfProperty } from '../core/plugable/plugable';
 import { SelectComponent, SelectProps } from './contorl-components/select.component';
 import { Validators } from '@angular/forms';
 import { TextareaComponent } from './contorl-components/textarea.component';
@@ -10,42 +10,43 @@ import { NzSelectOptionInterface } from 'ng-zorro-antd/select';
 import { DateComponent } from './contorl-components/date.component';
 import { RadioComponent } from './contorl-components/radio.component';
 import { CheckboxComponent } from './contorl-components/checkbox.component';
+import { AntdIndicator } from './indicator.component';
 
-const indicators: { [key: string]: VfIndicator } = {
+const indicators: { [key: string]: AntdIndicator } = {
   input: {
     id: 'input',
     title: '输入框',
-    icon: null,
+    icon: 'edit',
   },
   inputNumber: {
     id: 'inputNumber',
     title: '数字输入框',
-    icon: null,
+    icon: 'field-number',
   },
   textarea: {
     id: 'textarea',
     title: '文本域',
-    icon: null,
+    icon: 'form',
   },
   select: {
     id: 'select',
     title: '下拉框',
-    icon: null,
+    icon: 'unordered-list',
   },
   date: {
     id: 'date',
     title: '日期选择',
-    icon: null,
+    icon: 'calendar',
   },
   radio: {
     id: 'radio',
     title: '单选框',
-    icon: null,
+    icon: 'check-circle',
   },
   checkbox: {
     id: 'checkbox',
     title: '多选框',
-    icon: null,
+    icon: 'check-square',
   },
 };
 
