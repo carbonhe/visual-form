@@ -7,7 +7,7 @@
     "build": "ng build --prod",
     "build:lib": "ng build visual-form-lib --prod",
     "build:lib:watch": "ng build visual-form-lib --watch",
-    "test": "ng test visual-form-lib --no-watch --browsers=ChromeHeadless --code-coverage",
+    "test": "ng test visual-form-lib --no-watch --browsers=ChromeHeadlessCI --code-coverage",
     "test:watch": "ng test visual-form-lib",
     "lint": "ng lint",
     "e2e": "ng e2e",
