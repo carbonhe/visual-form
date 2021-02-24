@@ -27,7 +27,7 @@ export class AppComponent {
       nzOnOk: () => this.logFormValue(),
       nzOkDisabled: true,
     });
-    modal.componentInstance.renderCompleted.subscribe(form => {
+    modal.componentInstance.afterRendered.subscribe(form => {
       this.form = form;
       modal.updateConfig({ nzOkDisabled: this.form.invalid });
       this.form.valueChanges.subscribe(_ => {

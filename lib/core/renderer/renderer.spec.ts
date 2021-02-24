@@ -81,7 +81,7 @@ describe('vf-renderer', () => {
       const control = new VfFormControl(TestInputControlComponent);
       const componentRenderedNext = jasmine.createSpy();
       const componentRenderedComplete = jasmine.createSpy();
-      component.renderer.componentRendered$.subscribe({
+      component.renderer.rendered$.subscribe({
         next(value) {
           componentRenderedNext(value);
         },
@@ -101,7 +101,7 @@ describe('vf-renderer', () => {
       let receivedGroupProps;
       let receivedWrapperProps;
       const control = new VfFormControl(TestInputControlComponent, TestDivWrapperComponent, controlProps);
-      component.renderer.componentRendered$.subscribe(r => {
+      component.renderer.rendered$.subscribe(r => {
         if (isInstanceOfControlComponent(r.instance)) {
           receivedControlProps = r.instance.control.props;
         }

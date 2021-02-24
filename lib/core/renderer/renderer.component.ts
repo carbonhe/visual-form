@@ -2,7 +2,6 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ComponentRef,
   EventEmitter,
   Injector,
   Input,
@@ -16,7 +15,6 @@ import { PluginService } from '../plugable/plugin.service';
 import { FormGroup } from '@angular/forms';
 import { filter, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
 import { VfRenderer } from './renderer';
 import { Patcher } from './patcher';
 import { PatchContext } from '../plugable/plugable';
@@ -30,11 +28,9 @@ import { PatchContext } from '../plugable/plugable';
 export class RendererComponent implements OnInit, AfterViewInit {
   @Input() controls: ControlSetting[] = [];
 
-  @Output() renderCompleted = new EventEmitter<FormGroup>();
+  @Output() beforeRender = new EventEmitter<VfComponentType>();
 
-  @Output() componentRendered = new EventEmitter<VfComponentType>();
-
-  private componentRendered$ = new Subject<ComponentRef<VfComponentType>>();
+  @Output() afterRendered = new EventEmitter<FormGroup>();
 
   vf: VfFormGroup<any>;
 
@@ -48,7 +44,6 @@ export class RendererComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.viewContainer.clear();
-    this.renderer.componentRendered$.subscribe(r => this.componentRendered$.next(r));
     this.render();
   }
 
@@ -63,7 +58,7 @@ export class RendererComponent implements OnInit, AfterViewInit {
         }
       );
 
-      const rendered$ = this.componentRendered$.pipe(
+      const rendered$ = this.renderer.rendered$.pipe(
         filter(ref => isInstanceOfControlComponent(ref.instance)),
         map(_ => undefined)
       );
@@ -89,7 +84,7 @@ export class RendererComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.renderCompleted.emit(this.vf);
+    this.afterRendered.emit(this.vf);
   }
 
   private resolveContextServices() {

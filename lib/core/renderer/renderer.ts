@@ -6,9 +6,9 @@ import { coerceElement } from '@angular/cdk/coercion';
 
 @Injectable()
 export class VfRenderer {
-  private _componentRendered$ = new Subject<ComponentRef<VfComponentType>>();
+  private _rendered$ = new Subject<ComponentRef<VfComponentType>>();
 
-  componentRendered$ = this._componentRendered$.asObservable();
+  rendered$ = this._rendered$.asObservable();
 
   constructor(private componentResolver: ComponentFactoryResolver) {}
 
@@ -17,7 +17,7 @@ export class VfRenderer {
       return;
     }
     const rootComponentRef = this._render(viewContainer, control);
-    this._componentRendered$.complete();
+    this._rendered$.complete();
     return rootComponentRef;
   }
 
@@ -27,12 +27,12 @@ export class VfRenderer {
       const factory = this.componentResolver.resolveComponentFactory(control.component);
       const componentRef = viewContainer.createComponent(factory);
       componentRef.instance.control = control;
-      this._componentRendered$.next(componentRef);
+      this._rendered$.next(componentRef);
       if (control.wrapper) {
         const wrapperFactory = this.componentResolver.resolveComponentFactory(control.wrapper);
         const wrapperComponentRef = viewContainer.createComponent(wrapperFactory, null, null, [[coerceElement(componentRef.location)]]);
         wrapperComponentRef.instance.props = control.props;
-        this._componentRendered$.next(wrapperComponentRef);
+        this._rendered$.next(wrapperComponentRef);
         return wrapperComponentRef;
       }
       return componentRef;
@@ -49,7 +49,7 @@ export class VfRenderer {
         children.map(e => coerceElement(e.location)),
       ]);
       componentRef.instance.group = control;
-      this._componentRendered$.next(componentRef);
+      this._rendered$.next(componentRef);
       return componentRef;
     }
   }
