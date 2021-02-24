@@ -3,6 +3,7 @@ import { WorkspaceContext } from '../workspace-context';
 import { Options } from 'sortablejs';
 import { PluginService } from '../../plugable/plugin.service';
 import { VfIndicator } from '../../plugable/plugable';
+import { ControlSetting } from '../types';
 
 @Component({
   selector: 'vf-component-panel',
@@ -39,8 +40,8 @@ export class ComponentPanelComponent implements OnInit {
     this.width = Math.floor(100 / col) + '%';
   }
 
-  cloneFunction(indicator: VfIndicator): any {
+  cloneFunction(indicator: VfIndicator): ControlSetting {
     const id = `${indicator.id}_${Math.random().toString(36).substr(2, 6)}`;
-    return { id, span: 24, title: indicator.title, indicatorId: indicator.id };
+    return { id, span: 24, title: indicator.title, indicatorId: indicator.id, required: false };
   }
 }

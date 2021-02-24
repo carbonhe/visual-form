@@ -24,6 +24,7 @@ export interface ComponentWithProps<TComponent extends ControlComponent<TProps> 
 export interface VfIndicator {
   id: string;
   title: string;
+  icon?: string;
 }
 
 export interface VfProperty<T extends ControlComponent = any> extends Pairs {

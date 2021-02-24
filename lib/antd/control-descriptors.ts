@@ -1,6 +1,6 @@
 import { InputComponent } from './contorl-components/input.component';
 import { InputNumberComponent, InputNumberProps } from './contorl-components/input-number.component';
-import { PatchContext, VfControlDescriptor, VfProperty } from '../core/plugable/plugable';
+import { PatchContext, VfControlDescriptor, VfIndicator, VfProperty } from '../core/plugable/plugable';
 import { SelectComponent, SelectProps } from './contorl-components/select.component';
 import { Validators } from '@angular/forms';
 import { TextareaComponent } from './contorl-components/textarea.component';
@@ -10,9 +10,8 @@ import { NzSelectOptionInterface } from 'ng-zorro-antd/select';
 import { DateComponent } from './contorl-components/date.component';
 import { RadioComponent } from './contorl-components/radio.component';
 import { CheckboxComponent } from './contorl-components/checkbox.component';
-import { AntdIndicator } from './indicator.component';
 
-const indicators: { [key: string]: AntdIndicator } = {
+const indicators: { [key: string]: VfIndicator } = {
   input: {
     id: 'input',
     title: '输入框',

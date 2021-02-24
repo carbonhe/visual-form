@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WrapperComponent } from '../../core/renderer/types';
-import { CommonControlSetting } from '../../core/workspace/types';
+import { BasicControlSetting } from '../../core/workspace/types';
 import { NzColDirective } from 'ng-zorro-antd/grid';
 
 @Component({
@@ -25,7 +25,7 @@ export class FormItemWrapperComponent extends NzColDirective implements WrapperC
   }
 }
 
-export interface FormItemProps extends CommonControlSetting {
+export interface FormItemProps extends BasicControlSetting {
   description?: string;
   labelSpan: number;
   controlSpan: number;

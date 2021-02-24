@@ -32,9 +32,5 @@ import { IndicatorComponent, VfIndicator } from '../core/plugable/plugable';
   ],
 })
 export class AntdIndicatorComponent implements IndicatorComponent {
-  indicator: AntdIndicator;
-}
-
-export interface AntdIndicator extends VfIndicator {
-  icon: string;
+  indicator: VfIndicator;
 }

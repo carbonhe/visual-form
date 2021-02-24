@@ -94,8 +94,6 @@ export class PropertyPanelComponent implements OnInit, OnChanges {
     delete settingCopy[VF_PATCHES];
 
     const componentRef = this.renderer.render(this.viewContainer, group);
-    // const factory = this.componentResolver.resolveComponentFactory(VfContainerComponent);
-    // this.viewContainer.createComponent(factory).instance.vf = group;
 
     /**
      * It is very important to make sure that all internal controls patch value before the group
@@ -105,11 +103,11 @@ export class PropertyPanelComponent implements OnInit, OnChanges {
     return componentRef;
   }
 
-  private clone(stuff: any): any {
-    if (typeof stuff === 'object' || typeof stuff === 'function') {
-      return JSON.parse(JSON.stringify(stuff));
+  private clone(source: any): any {
+    if (typeof source === 'object' || typeof source === 'function') {
+      return JSON.parse(JSON.stringify(source));
     }
-    return stuff;
+    return source;
   }
 
   private addPatch(property: VfProperty, setting: ControlSetting) {
