@@ -19,7 +19,7 @@ import { ControlSetting } from '../types';
         <div *ngIf="isSelected(control)" class="handle">
           <vf-handle-icon color="white"></vf-handle-icon>
         </div>
-        {{ control.id }}
+        {{ control.title + ' - ' + control.id }}
         <div *ngIf="isSelected(control)" (click)="dcs.delete(control)" class="delete">
           <vf-delete-icon color="white"></vf-delete-icon>
         </div>
